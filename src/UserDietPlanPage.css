@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Chillax:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.user-diet-plan-page {
+  display: flex;
+  font-family: 'Chillax', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f5f5f7;
+  height: 100vh;
+  overflow: hidden;
+  width: 100vw;
+  min-width: 1600px;
+}
+
+/* SIDEBAR */
+.user-sidebar {
+  width: 100px;
+  background: #1c1c1e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 0;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.sidebar-header { margin-bottom: 50px; }
+
+.menu-icon {
+  width: 70px !important;
+  height: 70px !important;
+  background: linear-gradient(135deg, #333, #444) !important;
+  color: #fff !important;
+  border-radius: 18px !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+  font-size: 28px !important;
+}
+
+.sidebar-nav { display: flex; flex-direction: column; gap: 35px; flex: 1; }
+
+.nav-item {
+  width: 70px !important;
+  height: 70px !important;
+  border-radius: 18px !important;
+  color: #8e8e93 !important;
+  transition: all 0.3s ease !important;
+  font-size: 28px !important;
+}
+
+.nav-item:hover { background: #2c2c2e !important; color: #fff !important; transform: scale(1.05); }
+.nav-item.active { background: #b39ddb !important; color: #fff !important; transform: scale(1.02); }
+
+.sidebar-bottom { margin-top: auto; }
+.logout-btn { color: #8e8e93 !important; width: 70px !important; height: 70px !important; }
+.logout-btn:hover { color: #fff !important; background: #2c2c2e !important; transform: scale(1.05); }
+
+/* MAIN CONTENT */
+.user-main {
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
+  width: calc(100vw - 100px); min-width: calc(1600px - 100px);
+}
+
+.user-header {
+  background: linear-gradient(135deg, #faf8ff, #f3f0ff) !important;
+  padding: 24px 30px; display: flex; justify-content: space-between; align-items: center;
+  box-shadow: 0 4px 20px rgba(179, 157, 219, 0.2) !important; border-bottom: 2px solid #ede7ff !important; z-index: 50;
+}
+
+.brand-section { display: flex; align-items: center; gap: 20px; transition: all 0.3s ease; }
+
+.brand-logo-container { position: relative; width: 60px; height: 60px; border-radius: 16px; overflow: hidden; box-shadow: 0 6px 16px rgba(123, 104, 238, 0.3); transition: all 0.3s ease; }
+.brand-logo-container:hover { transform: scale(1.08); box-shadow: 0 8px 20px rgba(123, 104, 238, 0.4); }
+.brand-logo-image { width: 100%; height: 100%; object-fit: cover; border-radius: 16px; }
+.brand-icon-fallback { width: 60px; height: 60px; background: linear-gradient(135deg, #d1c4e9, #b39ddb); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 28px; color: #673ab7; font-family: 'Chillax', sans-serif; }
+.brand-name { font-size: 32px !important; font-weight: 800 !important; color: #1d1d1f !important; letter-spacing: -0.8px; font-family: 'Chillax', sans-serif !important; }
+
+/* USER INFO SECTION */
+.user-info { display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: rgba(255, 255, 255, 0.8); border-radius: 16px; border: 1px solid rgba(179, 157, 219, 0.3); }
+.user-avatar { width: 50px !important; height: 50px !important; background: linear-gradient(135deg, #10b981, #059669) !important; font-size: 24px !important; box-shadow: 0 3px 8px rgba(16, 185, 129, 0.3); }
+.user-name { font-size: 18px !important; font-weight: 700 !important; color: #1d1d1f !important; font-family: 'Chillax', sans-serif !important; }
+.user-goal { font-size: 14px !important; color: #10b981 !important; font-weight: 600 !important; font-family: 'Chillax', sans-serif !important; }
+
+.header-actions { display: flex; gap: 12px; }
+.header-actions .MuiIconButton-root { width: 50px !important; height: 50px !important; color: #8e8e93 !important; border-radius: 12px !important; font-size: 24px !important; transition: all 0.3s ease !important; }
+.header-actions .MuiIconButton-root:hover { background: rgba(179, 157, 219, 0.2) !important; color: #673ab7 !important; transform: scale(1.05); }
+
+/* CONTENT AREA */
+.user-content { flex: 1; padding: 30px 15px; overflow-y: auto; width: 100%; }
+.page-title { font-size: 48px !important; font-weight: 900 !important; color: #1d1d1f !important; letter-spacing: -1.5px; margin-bottom: 12px !important; font-family: 'Chillax', sans-serif !important; text-align: center; }
+.page-subtitle { font-size: 20px !important; color: #8e8e93 !important; margin-bottom: 30px !important; font-family: 'Chillax', sans-serif !important; text-align: center; }
+
+/* MAIN GRID */
+.main-grid { width: 100% !important; margin: 0 !important; gap: 20px !important; justify-content: center; }
+.main-grid .MuiGrid-item { padding: 0 !important; }
+
+/* PLANS OVERVIEW PANEL */
+.plans-overview-panel {
+  width: 100% !important; padding: 40px !important; border-radius: 24px !important;
+  box-shadow: 0 8px 32px rgba(179, 157, 219, 0.15) !important; border: 2px solid rgba(179, 157, 219, 0.2) !important;
+  height: calc(100vh - 240px) !important; background: linear-gradient(135deg, #faf8ff, #f5f3ff) !important; overflow-y: auto !important; transition: all 0.3s ease;
+}
+.plans-overview-panel:hover { box-shadow: 0 12px 40px rgba(179, 157, 219, 0.2) !important; transform: translateY(-2px); }
+.panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid rgba(179, 157, 219, 0.1); }
+.panel-title { font-size: 24px !important; font-weight: 800 !important; color: #1d1d1f !important; font-family: 'Chillax', sans-serif !important; }
+.nutritionist-chip { background: rgba(16, 185, 129, 0.1) !important; color: #059669 !important; font-weight: 600 !important; font-family: 'Chillax', sans-serif !important; }
+
+/* PROGRESS SUMMARY */
+.progress-summary { margin-bottom: 30px; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 16px; border: 1px solid rgba(179, 157, 219, 0.2); }
+.summary-title { font-size: 18px !important; font-weight: 700 !important; color: #1d1d1f !important; margin-bottom: 20px !important; font-family: 'Chillax', sans-serif !important; }
+.progress-stats { display: flex; flex-direction: column; gap: 16px; }
+.stat-item { display: flex; flex-direction: column; gap: 8px; }
+.stat-label { font-size: 14px !important; font-weight: 600 !important; color: #6c6c70 !important; font-family: 'Chillax', sans-serif !important; }
+.stat-value { font-size: 16px !important; font-weight: 700 !important; color: #1d1d1f !important; font-family: 'Chillax', sans-serif !important; text-align: right; margin-top: -22px; }
+.progress-bar { height: 8px !important; border-radius: 4px !important; }
+.progress-bar.daily .MuiLinearProgress-bar { background: linear-gradient(90deg, #10b981, #059669) !important; }
+.progress-bar.weekly .MuiLinearProgress-bar { background: linear-gradient(90deg, #6366f1, #4f46e5) !important; }
+.progress-bar.calories .MuiLinearProgress-bar { background: linear-gradient(90deg, #f59e0b, #d97706) !important; }
+
+/* PLANS LIST */
+.plans-list { margin-bottom: 30px; }
+.list-title { font-size: 18px !important; font-weight: 700 !important; color: #1d1d1f !important; margin-bottom: 16px !important; font-family: 'Chillax', sans-serif !important; }
+.plan-card { margin-bottom: 12px !important; cursor: pointer !important; transition: all 0.3s ease !important; border-radius: 16px !important; border: 2px solid transparent !important; }
+.plan-card:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 24px rgba(179, 157, 219, 0.2) !important; }
+.plan-card.selected { border-color: #b39ddb !important; background: rgba(179, 157, 219, 0.05) !important; }
+.plan-card.active { border-left: 4px solid #10b981 !important; }
+.plan-card.upcoming { border-left: 4px solid #f59e0b !important; }
+.plan-card.completed { border-left: 4px solid #6366f1 !important; }
+.plan-card-content { padding: 20px !important; }
+.plan-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+.plan-title-section { flex: 1; }
+.plan-title { font-size: 16px !important; font-weight: 700 !important; color: #1d1d1f !important; font-family: 'Chillax', sans-serif !important; margin-bottom: 4px !important; }
+.plan-duration { font-size: 12px !important; color: #8e8e93 !important; font-weight: 600 !important; font-family: 'Chillax', sans-serif !important; }
+.status-chip { font-weight: 600 !important; font-family: 'Chillax', sans-serif !important; font-size: 12px !important; height: 28px !important; }
+.status-chip.active { background: rgba(16, 185, 129, 0.1) !important; }
+.status-chip.upcoming { background: rgba(245, 158, 11, 0.1) !important; }
+.status-chip.completed { background: rgba(99, 102, 241, 0.1) !important; }
+.plan-details { margin-bottom: 12px; }
+.plan-dates, .plan-calories { font-size: 14px !important; color: #6c6c70 !important; font-family: 'Chillax', sans-serif !important; margin-bottom: 4px !important; }
+.plan-feedback { padding-top: 8px; border-top: 1px solid rgba(179, 157, 219, 0.2); }
+.feedback-text { font-size: 12px !important; color: #6c6c70 !important; font-style: italic !important; margin-top: 4px !important; font-family: 'Chillax', sans-serif !important; }
+
+/* QUICK ACTIONS */
+.quick-actions { display: flex; flex-direction: column; gap: 12px; }
+.action-btn { font-weight: 600 !important; text-transform: none !important; border-radius: 12px !important; padding: 12px 16px !important; font-size: 14px !important; font-family: 'Chillax', sans-serif !important; justify-content: flex-start !important; }
+.action-btn.download { background: rgba(99, 102, 241, 0.1) !important; color: #4f46e5 !important; }
+.action-btn.share { background: rgba(16, 185, 129, 0.1) !important; color: #059669 !important; }
+.action-btn.feedback { background: rgba(245, 158, 11, 0.1) !important; color: #d97706 !important; }
+
+/* PLAN DETAILS PANEL */
+.plan-details-panel {
+  width: 100% !important; padding: 40px !important; border-radius: 24px !important;
+  box-shadow: 0 8px 32px rgba(179, 157, 219, 0.15) !important; border: 2px solid rgba(179, 157, 219, 0.2) !important;
+  background: linear-gradient(135deg, #faf8ff, #f5f3ff) !important; height: calc(100vh - 240px) !important; overflow-y: auto !important; transition: all 0.3s ease;
+}
+.plan-details-panel:hover { box-shadow: 0 12px 40px rgba(179, 157, 219, 0.2) !important; transform: translateY(-2px); }
+.details-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid rgba(179, 157, 219, 0.1); }
+.details-title { font-size: 28px !important; font-weight: 800 !important; color: #1d1d1f !important; font-family: 'Chillax', sans-serif !important; flex: 1; }
+.details-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.goal-chip { background: rgba(16, 185, 129, 0.1) !important; color: #059669 !important; font-weight: 700 !important; font-family: 'Chillax', sans-serif !important; }
+.target-calories { font-size: 16px !important; font-weight: 600 !important; color: #6c6c70 !important; font-family: 'Chillax', sans-serif !important; }
+.plan-notes { margin-bottom: 24px !important; border-radius: 12px !important; border: none !important; background: rgba(99, 102, 241, 0.08) !important; }
+.notes-text { font-family: 'Chillax', sans-serif !important; font-size: 14px !important; }
+
+/* MEAL TABS */
+.meal-tabs { margin-bottom: 24px; }
+.meal-tabs .MuiTab-root { font-weight: 700 !important; text-transform: none !important; font-size: 16px !important; min-height: 60px !important; font-family: 'Chillax', sans-serif !important; min-width: 150px !important; border-radius: 12px !important; margin: 0 5px !important; transition: all 0.3s ease !important; }
+.meal-tabs .MuiTab-root:hover { background: rgba(179, 157, 219, 0.1) !important; }
+.meal-tabs .MuiTab-root.Mui-selected { background: rgba(179, 157, 219, 0.2) !important; color: #673ab7 !important; }
+
+/* MEAL CONTENT */
+.meal-content { min-height: 400px; max-height: 500px; overflow-y: auto; }
+.meal-section { display: flex; flex-direction: column; gap: 20px; }
+.meal-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; background: rgba(255, 255, 255, 0.8); border-radius: 16px; border: 1px solid rgba(179, 157, 219, 0.2); margin-bottom: 4px; }
+.meal-title { font-size: 20px !important; font-weight: 800 !important; color: #1d1d1f !important; font-family: 'Chillax', sans-serif !important; }
+.meal-calories { font-size: 16px !important; font-weight: 700 !important; color: #b39ddb !important; font-family: 'Chillax', sans-serif !important; }
+.meal-progress { width: 150px !important; height: 6px !important; border-radius: 3px !important; }
+.meal-progress .MuiLinearProgress-bar { background: linear-gradient(90deg, #b39ddb, #9c27b0) !important; }
+
+/* FOODS LIST */
+.foods-list { display: flex; flex-direction: column; gap: 12px; }
+.food-item { display: flex; align-items: center; gap: 16px; padding: 16px; background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(179, 157, 219, 0.2); border-radius: 12px; transition: all 0.3s ease; }
+.food-item:hover { background: rgba(255, 255, 255, 1); border-color: rgba(179, 157, 219, 0.4); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(179, 157, 219, 0.1); }
+.food-checkbox { display: flex; align-items: center; }
+.check-btn { width: 40px !important; height: 40px !important; border: 2px solid #e5e5ea !important; border-radius: 50% !important; background: white !important; color: #8e8e93 !important; transition: all 0.3s ease !important; }
+.check-btn:hover { border-color: #b39ddb !important; background: rgba(179, 157, 219, 0.1) !important; }
+.check-btn.completed { border-color: #10b981 !important; background: #10b981 !important; color: white !important; }
+.food-info { flex: 1; }
+.food-name { font-size: 16px !important; font-weight: 600 !important; color: #1d1d1f !important; font-family: 'Chillax', sans-serif !important; margin-bottom: 4px !important; transition: all 0.3s ease !important; }
+.food-name.completed { text-decoration: line-through !important; color: #8e8e93 !important; }
+.food-details { font-size: 14px !important; color: #6c6c70 !important; font-family: 'Chillax', sans-serif !important; margin-bottom: 2px !important; }
+.food-notes { font-size: 13px !important; color: #8e8e93 !important; font-style: italic !important; font-family: 'Chillax', sans-serif !important; }
+
+/* MEAL NOTES */
+.meal-notes { padding: 16px; background: rgba(245, 158, 11, 0.08); border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.2); }
+.notes-title { font-size: 14px !important; font-weight: 700 !important; color: #d97706 !important; font-family: 'Chillax', sans-serif !important; margin-bottom: 6px !important; }
+.meal-notes .notes-text { font-size: 14px !important; color: #92400e !important; font-family: 'Chillax', sans-serif !important; line-height: 1.4 !important; }
+
+/* NO PLAN SELECTED */
+.no-plan-selected { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; text-align: center; }
+.empty-icon { font-size: 64px !important; color: #d1d5db !important; margin-bottom: 20px !important; }
+.empty-title { font-size: 24px !important; font-weight: 700 !important; color: #6c6c70 !important; margin-bottom: 12px !important; font-family: 'Chillax', sans-serif !important; }
+.empty-text { font-size: 16px !important; color: #8e8e93 !important; max-width: 400px; line-height: 1.5; font-family: 'Chillax', sans-serif !important; }
+
+/* FEEDBACK DIALOG */
+.feedback-label { font-size: 16px !important; font-weight: 600 !important; color: #1d1d1f !important; font-family: 'Chillax', sans-serif !important; margin-bottom: 8px !important; }
+
+/* SCROLLBARS */
+.plans-overview-panel::-webkit-scrollbar,
+.plan-details-panel::-webkit-scrollbar,
+.meal-content::-webkit-scrollbar { width: 8px; }
+.plans-overview-panel::-webkit-scrollbar-track,
+.plan-details-panel::-webkit-scrollbar-track,
+.meal-content::-webkit-scrollbar-track { background: rgba(179, 157, 219, 0.1); border-radius: 4px; }
+.plans-overview-panel::-webkit-scrollbar-thumb,
+.plan-details-panel::-webkit-scrollbar-thumb,
+.meal-content::-webkit-scrollbar-thumb { background: rgba(179, 157, 219, 0.3); border-radius: 4px; }
+.plans-overview-panel::-webkit-scrollbar-thumb:hover,
+.plan-details-panel::-webkit-scrollbar-thumb:hover,
+.meal-content::-webkit-scrollbar-thumb:hover { background: rgba(179, 157, 219, 0.5); }
+
+/* RESPONSIVE */
+@media (max-width: 1400px) {
+  .main-grid .MuiGrid-item { max-width: 100% !important; flex-basis: 100% !important; }
+  .plans-overview-panel, .plan-details-panel { height: auto !important; max-height: none !important; }
+  .details-header { flex-direction: column; gap: 16px; align-items: flex-start; }
+  .details-meta { align-items: flex-start; }
+}
+
+@media (max-width: 768px) {
+  .page-title { font-size: 32px !important; }
+  .page-subtitle { font-size: 16px !important; }
+  .user-sidebar { width: 70px; }
+  .brand-name { display: none; }
+  .user-content { padding: 20px 10px; }
+  .user-info { flex-direction: column; gap: 8px; }
+}
