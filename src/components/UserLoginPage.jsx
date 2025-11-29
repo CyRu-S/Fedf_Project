@@ -1,17 +1,19 @@
 import React from "react";
-import "../LoginPage.css";
+import "../loginpage.css";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
+import NutriWellBrand from "./NutriWellBrand.jsx";
 
 const LoginPage = () => (
   <div className="chillax-bg">
     <div className="login-container">
       {/* Left Side */}
       <div className="login-left">
-        <img
-          src="/logo.jpg"
-          alt="NutriWell Logo"
+        <div
           className="nutri-logo"
-        />
+          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px' }}
+        >
+          <NutriWellBrand circleSize={56} fontSize={26} gap={8} />
+        </div>
         <h2 className="nutriwell-left-heading">Welcome to NutriWell</h2>
         <p className="nutriwell-sub">Personalized nutrition, simplified.</p>
         <div className="zigzag-images">
@@ -24,8 +26,7 @@ const LoginPage = () => (
       {/* Right Side */}
       <div className="login-right">
         <div className="brand-row brand-row-right">
-          <img src="/logo.jpg" alt="NutriWell Logo" className="nutri-logo-small" />
-          <span className="nutriwell-right-heading">NutriWell</span>
+          <NutriWellBrand circleSize={28} fontSize={18} />
         </div>
         <h2 className="get-started-header">Get Started</h2>
         <input type="text" placeholder="Name or Username" />

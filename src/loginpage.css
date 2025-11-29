@@ -14,9 +14,9 @@
   border-radius: 24px;
   box-shadow: 0 8px 40px #d7d3f8;
   overflow: hidden;
-  max-width: 1100px;
+  max-width: 1500px;
   width: 90vw;
-  min-height: 520px;
+  min-height: 650px;
   align-items: stretch;
 }
 
@@ -27,7 +27,7 @@
   justify-content: center;
   align-items: center;
   padding: 56px 32px;
-  background: linear-gradient(138deg, #dcd6fb 0%, #a59bf8 80%);
+  background: linear-gradient(138deg, #dcd6fb 0%, #b58ef7 80%);
 }
 
 .nutriwell-left-heading {
@@ -96,7 +96,7 @@
 }
 
 .nutri-logo-small {
-  width: 40px;
+  width: 50px;
   height: 40px;
   object-fit: contain;
   border-radius: 6px;
@@ -137,7 +137,7 @@
 }
 
 .login-right input:focus {
-  box-shadow: 0 0 0 2px #b4b0fa;
+  box-shadow: 0 0 0 2px #4a4694;
 }
 
 .login-btn {
@@ -152,7 +152,7 @@
   margin: 14px 0 24px 0;
   width: 130px;
   align-self: center;
-  box-shadow: 0 4px 12px rgba(131,101,246,0.24);
+  box-shadow: 0 4px 12px rgba(160, 145, 220, 0.24);
 }
 
 .signin-block {
@@ -178,7 +178,7 @@
 }
 
 .social-icon {
-  font-size: 1.7rem;
+  font-size: 2.5rem;
   color: #b6b4fa;
   background: #f7f7fd;
   padding: 6px;
@@ -192,15 +192,19 @@
 }
 
 .nutri-logo {
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
-  margin-bottom: 22px;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 2px 12px rgba(131,101,246,0.14);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 12px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  /* let the brand define its own size */
+  width: auto;
+  height: auto;
+  min-width: 0;
 }
-
 @media (max-width: 900px) {
   .login-container {
     flex-direction: column;
@@ -214,4 +218,11 @@
   .login-left h2 {
     font-size: 1.6rem;
   }
+
+  /* keep logo box reasonable on smaller screens */
+  .nutri-logo {
+    min-width: 0;
+    padding: 0;
+  }
 }
+
