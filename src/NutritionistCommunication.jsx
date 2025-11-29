@@ -130,7 +130,7 @@ function NutritionistCommunication() {
             <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '340px 1fr 320px' }, gap: 3 }}>
               {/* Chat List */}
               <Card sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', display: 'flex', flexDirection: 'column', gap: 2, minHeight: 650 }}>
-                <Typography sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 600, fontSize: 16 }}>Your Chats</Typography>
+                <Typography sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 600, fontSize: 24 }}>Your Chats</Typography>
                 <TextField
                   size="small"
                   placeholder="Search"
