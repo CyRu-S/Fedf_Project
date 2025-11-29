@@ -51,6 +51,8 @@ npm run dev
 ### Customizing the Form
 
 **To add a new field:**
+
+{% raw %}
 ```jsx
 // 1. Add to state (line 24)
 const [formData, setFormData] = useState({
@@ -78,6 +80,7 @@ const [formData, setFormData] = useState({
   />
 </Box>
 ```
+{% endraw %}
 
 **To change colors:**
 - Background gradient: Line 56-58
