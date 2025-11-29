@@ -1,0 +1,228 @@
+.chillax-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: radial-gradient(circle at 40% 30%, #ebe4fd 58%, #c1b6fc 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: row;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 40px #d7d3f8;
+  overflow: hidden;
+  max-width: 1500px;
+  width: 90vw;
+  min-height: 650px;
+  align-items: stretch;
+}
+
+.login-left {
+  flex: 1.1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 56px 32px;
+  background: linear-gradient(138deg, #dcd6fb 0%, #b58ef7 80%);
+}
+
+.nutriwell-left-heading {
+  color: rgb(51, 21, 105);
+  font-family: 'Chillax', 'Montserrat', Arial, sans-serif;
+  font-weight: 800;
+  font-size: 2.8rem;
+  white-space: nowrap;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.nutriwell-sub {
+  font-size: 1.11rem;
+  margin-bottom: 32px;
+  color: #8378b9;
+  text-align: center;
+}
+
+.zigzag-images {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 280px;
+  height: 120px;
+  margin: 34px auto 0 auto;
+}
+
+.zigzag-img {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: solid 4px #fff;
+  box-shadow: 0 2px 10px rgba(131,101,246,0.11);
+  background: #eef1fe;
+}
+
+.img1 { top: 12px; left: 0; }
+.img2 { top: 43px; left: 70px; }
+.img3 { top: 12px; left: 140px; }
+.img4 { top: 43px; left: 210px; }
+
+.login-right {
+  flex: 1.4;
+  background: #fff;
+  padding: 56px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.brand-row-right {
+  justify-content: flex-end;
+  width: 100%;
+  gap: 12px;
+}
+
+.nutri-logo-small {
+  width: 50px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.nutriwell-right-heading {
+  color: #2c2469;
+  font-family: 'Chillax', 'Montserrat', Arial, sans-serif;
+  font-weight: 800;
+  font-size: 1.45rem;
+  letter-spacing: 0.5px;
+  text-align: right;
+}
+
+.get-started-header {
+  text-align: center;
+  width: 100%;
+  font-size: 2.1rem;
+  font-family: 'Chillax', 'Montserrat', Arial, sans-serif;
+  font-weight: 800;
+  color: #27195b;
+  margin-bottom: 32px;
+}
+
+.login-right input[type="text"],
+.login-right input[type="password"],
+.login-right input[type="text"]:not(:placeholder-shown) {
+  font-size: 1.12rem;
+  padding: 16px 12px;
+  margin-bottom: 18px;
+  border: 1.5px solid #dcd6fb;
+  border-radius: 10px;
+  width: 100%;
+  background: #fafbfe;
+  outline: none;
+  transition: box-shadow 0.15s;
+}
+
+.login-right input:focus {
+  box-shadow: 0 0 0 2px #4a4694;
+}
+
+.login-btn {
+  font-size: 1.07rem;
+  padding: 15px 0;
+  background: linear-gradient(90deg,#b6b4fa 50%,#a36ef7 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  margin: 14px 0 24px 0;
+  width: 130px;
+  align-self: center;
+  box-shadow: 0 4px 12px rgba(160, 145, 220, 0.24);
+}
+
+.signin-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0 0 0;
+}
+
+.signin-text {
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #433a8c;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.signin-social {
+  display: flex;
+  gap: 26px;
+  justify-content: center;
+}
+
+.social-icon {
+  font-size: 2.5rem;
+  color: #b6b4fa;
+  background: #f7f7fd;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.social-icon:hover {
+  background: #e2deff;
+  color: #8d7edc;
+}
+
+.nutri-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-bottom: 12px;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  /* let the brand define its own size */
+  width: auto;
+  height: auto;
+  min-width: 0;
+}
+@media (max-width: 900px) {
+  .login-container {
+    flex-direction: column;
+    width: 95vw;
+  }
+  .login-left,
+  .login-right {
+    padding: 32px 16px;
+  }
+  .login-right h2,
+  .login-left h2 {
+    font-size: 1.6rem;
+  }
+
+  /* keep logo box reasonable on smaller screens */
+  .nutri-logo {
+    min-width: 0;
+    padding: 0;
+  }
+}
+
