@@ -70,7 +70,6 @@ const [formData, setFormData] = useState({
     value={formData.newField}
     onChange={handleChange('newField')}
     variant="outlined"
-    {% raw %}
     sx={{
       '& .MuiOutlinedInput-root': {
         backgroundColor: '#f3f4f6',
@@ -78,7 +77,6 @@ const [formData, setFormData] = useState({
         '& fieldset': { border: 'none' },
       },
     }}
-    {% endraw %}
   />
 </Box>
 ```
