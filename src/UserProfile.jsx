@@ -242,7 +242,7 @@ const UserProfile = () => {
         />
         
         {/* Main content area */}
-        <Box sx={{ flex: 1, overflow: 'auto' }}>
+        <Box sx={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
           {/* Header with title and subtitle */}
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', px: 5, pt: 3, pb: 2 }}>
             <Typography variant="h3" sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 500 }}>
@@ -252,9 +252,9 @@ const UserProfile = () => {
               Personal Health Information
             </Typography>
           </Box>          {/* Layout matching the image exactly */}
-          <Box sx={{ px: 5, pb: 4, display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '280px 1fr 360px' }, gap: 3, alignItems: 'start' }}>            {/* Left column: Profile stretched to bottom */}
-            <Box sx={{ gridColumn: { xs: '1', lg: '1' }, gridRow: '1 / -1' }}>
-              <Paper elevation={0} sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)', height: '100%' }}>
+          <Box sx={{ px: 5, pb: 4, flex: 1, display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '280px 1fr 360px' }, gap: 3, alignItems: 'stretch' }}>            {/* Left column: Profile stretched to bottom */}
+            <Box sx={{ gridColumn: { xs: '1', lg: '1' }, gridRow: '1 / -1', alignSelf: 'stretch' }}>
+              <Paper elevation={0} sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)', height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
                   <Avatar sx={{ width: 100, height: 100, bgcolor: '#cbb7ff', color: '#111827', fontWeight: 700, fontSize: 34 }}>JS</Avatar>
                   <Typography sx={{ fontWeight: 700, fontSize: 18, mt: 1 }}>John Smith</Typography>
@@ -268,99 +268,134 @@ const UserProfile = () => {
               </Paper>
             </Box>
 
-            {/* Middle column: 2-column subgrid + full-width User Bio */}
-            <Box sx={{ gridColumn: { xs: '1', lg: '2' }, display: 'flex', flexDirection: 'column', gap: 3 }}>
-              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
-                {/* Info Card */}
-              <Paper elevation={0} sx={{ p: 2.5, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', alignSelf: 'start' }}>
-                <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Info</Typography>
-                <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 1.25, columnGap: 2 }}>
-                  <Typography sx={{ color: '#6b7280' }}>Gender</Typography>
-                  <Typography sx={{ fontWeight: 600 }}>Male</Typography>
-                  <Typography sx={{ color: '#6b7280' }}>Age</Typography>
-                  <Typography sx={{ fontWeight: 600 }}>32</Typography>
-                  <Typography sx={{ color: '#6b7280' }}>Language</Typography>
-                  <Typography sx={{ fontWeight: 600 }}>English</Typography>
-                  <Typography sx={{ color: '#6b7280' }}>Height</Typography>
-                  <Typography sx={{ fontWeight: 600 }}>6'2</Typography>
-                </Box>
-              </Paper>              {/* Dietary Preferences Card */}
-              <Paper elevation={0} sx={{ p: 2.5, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #fefce8 0%, #ffffff 100%)', alignSelf: 'start' }}>
-                <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Dietary Preferences</Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography>Vegan</Typography>
-                    <PurpleSwitch size="medium" checked={diet.vegan} onChange={() => handleToggle('vegan')} />
+            {/* Middle column: make it a vertical stack, keep cards in same logical column */}
+            <Box sx={{ gridColumn: { xs: '1', lg: '2' }, display: 'flex', flexDirection: 'column', gap: 2.5, alignSelf: 'stretch' }}>
+              {/* Row 1: Info + Dietary in same row, equal height */}
+              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3, alignItems: 'stretch' }}>
+                {/* Info Card (unchanged content) */}
+                {/* just ensure display:flex so it stretches nicely */}
+                <Paper elevation={0} sx={{ p: 2.5, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', display: 'flex', flexDirection: 'column' }}>
+                  <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Info</Typography>
+                  <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 1.25, columnGap: 2 }}>
+                    <Typography sx={{ color: '#6b7280' }}>Gender</Typography>
+                    <Typography sx={{ fontWeight: 600 }}>Male</Typography>
+                    <Typography sx={{ color: '#6b7280' }}>Age</Typography>
+                    <Typography sx={{ fontWeight: 600 }}>32</Typography>
+                    <Typography sx={{ color: '#6b7280' }}>Language</Typography>
+                    <Typography sx={{ fontWeight: 600 }}>English</Typography>
+                    <Typography sx={{ color: '#6b7280' }}>Height</Typography>
+                    <Typography sx={{ fontWeight: 600 }}>6'2</Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography>Gluten Free</Typography>
-                    <PurpleSwitch size="medium" checked={diet.glutenFree} onChange={() => handleToggle('glutenFree')} />
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography>No Red Meat</Typography>
-                    <PurpleSwitch size="medium" checked={diet.noRedMeat} onChange={() => handleToggle('noRedMeat')} />
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography>Dairy Free</Typography>
-                    <PurpleSwitch size="medium" checked={diet.dairyFree} onChange={() => handleToggle('dairyFree')} />
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography>Vegetarian</Typography>
-                    <PurpleSwitch size="medium" checked={diet.vegetarian} onChange={() => handleToggle('vegetarian')} />
-                  </Box>
-                </Box>
-              </Paper>
+                </Paper>
 
-              {/* Calculate BMI Card – visually smaller */}
-              <Paper elevation={0} sx={{ p: 2.5, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #fcf5fe 0%, #ffffff 100%)', alignSelf: 'start' }}>
-                <Typography sx={{ fontFamily: 'Chillax', fontSize: 18, fontWeight: 600, color: '#1a1a1a', mb: 1.5 }}>Calculate your BMI</Typography>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <TextField size="small" placeholder="Enter your weight" value={weight} onChange={(e) => setWeight(e.target.value)} type="number" sx={{ flex: 1, '& .MuiOutlinedInput-root': { borderRadius: 2, backgroundColor: '#f9fafb' } }} />
-                  <Button variant="contained" onClick={calculateBMI} disabled={!weight} sx={{ backgroundColor: '#6366f1', textTransform: 'none', fontWeight: 700 }}>Submit</Button>
-                </Box>
-                <Box sx={{ mt: 1.25, display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Typography sx={{ color: '#6b7280', fontSize: 13 }}>Your Current BMI :</Typography>
-                  <Typography sx={{ fontWeight: 700, color: getBMIColor(), fontSize: 14 }}>{bmi ? `${bmi} (${getBMIStatus()})` : getBMIStatus()}</Typography>
-                </Box>
-              </Paper>
+                {/* Dietary Preferences Card (unchanged content) */}
+                <Paper elevation={0} sx={{ p: 2.5, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #fefce8 0%, #ffffff 100%)', display: 'flex', flexDirection: 'column' }}>
+                  <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Dietary Preferences</Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography>Vegan</Typography>
+                      <PurpleSwitch size="medium" checked={diet.vegan} onChange={() => handleToggle('vegan')} />
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography>Gluten Free</Typography>
+                      <PurpleSwitch size="medium" checked={diet.glutenFree} onChange={() => handleToggle('glutenFree')} />
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography>No Red Meat</Typography>
+                      <PurpleSwitch size="medium" checked={diet.noRedMeat} onChange={() => handleToggle('noRedMeat')} />
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography>Dairy Free</Typography>
+                      <PurpleSwitch size="medium" checked={diet.dairyFree} onChange={() => handleToggle('dairyFree')} />
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography>Vegetarian</Typography>
+                      <PurpleSwitch size="medium" checked={diet.vegetarian} onChange={() => handleToggle('vegetarian')} />
+                    </Box>
+                  </Box>
+                </Paper>
+              </Box>
 
-              {/* Achievements Card */}
-              <Paper elevation={0} sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)' }}>
-                <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Achievements</Typography>
-                <List sx={{ p: 0 }}>
-                  <ListItem sx={{ px: 0 }}>
-                    <ListItemIcon><FitnessCenter sx={{ color: '#8b5cf6' }} /></ListItemIcon>
-                    <ListItemText primary="Sustainable 20 kg weight loss." />
-                  </ListItem>
-                  <ListItem sx={{ px: 0 }}>
-                    <ListItemIcon><Star sx={{ color: '#fde047' }} /></ListItemIcon>
-                    <ListItemText primary="6-month workout streak." />
-                  </ListItem>
-                  <ListItem sx={{ px: 0 }}>
-                    <ListItemIcon><School sx={{ color: '#22c55e' }} /></ListItemIcon>
-                    <ListItemText primary="Consistent 10k daily step goal." />
-                  </ListItem>
-                  <ListItem sx={{ px: 0 }}>
-                    <ListItemIcon><EmojiEvents sx={{ color: '#f59e0b' }} /></ListItemIcon>
-                    <ListItemText primary="Reduced body fat by 8%." />
-                  </ListItem>
-                  <ListItem sx={{ px: 0 }}>
-                    <ListItemIcon><MenuBook sx={{ color: '#0ea5e9' }} /></ListItemIcon>
-                    <ListItemText primary="Built 1200+ healthy recipes." />
-                  </ListItem>
-                </List>
-              </Paper>              {/* User Bio Card: move under BMI (left column only) */}
-              <Paper elevation={0} sx={{ gridColumn: { md: '1 / 2' }, p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)' }}>
-                <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 1.5 }}>User Bio</Typography>
-                <Typography sx={{ color: '#374151', fontSize: 14 }}>
-                  Passionate health enthusiast focused on balanced nutrition, daily workouts, and mindful living. Loves meal-prepping, tracking macros, and exploring evidence-based wellness tips to boost energy and longevity.
-                </Typography>
-              </Paper>
+              {/* Row 2: BMI + Achievements in same row, with Bio only under BMI side */}
+              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3, alignItems: 'stretch' }}>
+                {/* Left: BMI + User Bio stacked */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.0 }}>
+                  {/* BMI Card (unchanged content) */}
+                  <Paper elevation={0} sx={{ p: 2.5, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #fcf5fe 0%, #ffffff 100%)', display: 'flex', flexDirection: 'column' }}>
+                    <Typography sx={{ fontFamily: 'Chillax', fontSize: 18, fontWeight: 600, color: '#1a1a1a', mb: 1.5 }}>Calculate your BMI</Typography>
+                    <Box sx={{ display: 'flex', gap: 1 }}>
+                      <TextField size="small" placeholder="Enter your weight" value={weight} onChange={(e) => setWeight(e.target.value)} type="number" sx={{ flex: 1, '& .MuiOutlinedInput-root': { borderRadius: 2, backgroundColor: '#f9fafb' } }} />
+                      <Button variant="contained" onClick={calculateBMI} disabled={!weight} sx={{ backgroundColor: '#6366f1', textTransform: 'none', fontWeight: 700 }}>Submit</Button>
+                    </Box>
+                    <Box sx={{ mt: 1.25, display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography sx={{ color: '#6b7280', fontSize: 13 }}>Your Current BMI :</Typography>
+                      <Typography sx={{ fontWeight: 700, color: getBMIColor(), fontSize: 14 }}>{bmi ? `${bmi} (${getBMIStatus()})` : getBMIStatus()}</Typography>
+                    </Box>
+                  </Paper>
+
+                  {/* User Bio Card: ONLY under BMI column */}
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      p: 3,
+                      borderRadius: 6,
+                      backgroundColor: '#fff',
+                      boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+                      border: '1px solid rgba(0, 0, 0, 0.15)',
+                      background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)',
+                    }}
+                  >
+                    <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 1.5 }}>User Bio</Typography>
+                    <Typography sx={{ color: '#374151', fontSize: 14 }}>
+                      Passionate health enthusiast focused on balanced nutrition, daily workouts, and mindful living. Loves meal-prepping, tracking macros, and exploring evidence-based wellness tips to boost energy and longevity.
+                    </Typography>
+                  </Paper>
+                </Box>
+
+                {/* Right: Achievements fills full height of its column */}
+                <Paper
+                  elevation={0}
+                  sx={{
+                    p: 3,
+                    borderRadius: 6,
+                    backgroundColor: '#fff',
+                    boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+                    border: '1px solid rgba(0, 0, 0, 0.15)',
+                    background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1,
+                  }}
+                >
+                  <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Achievements</Typography>
+                  <List sx={{ p: 0 }}>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><FitnessCenter sx={{ color: '#8b5cf6' }} /></ListItemIcon>
+                      <ListItemText primary="Sustainable 20 kg weight loss." />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><Star sx={{ color: '#fde047' }} /></ListItemIcon>
+                      <ListItemText primary="6-month workout streak." />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><School sx={{ color: '#22c55e' }} /></ListItemIcon>
+                      <ListItemText primary="Consistent 10k daily step goal." />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><EmojiEvents sx={{ color: '#f59e0b' }} /></ListItemIcon>
+                      <ListItemText primary="Reduced body fat by 8%." />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><MenuBook sx={{ color: '#0ea5e9' }} /></ListItemIcon>
+                      <ListItemText primary="Built 1200+ healthy recipes." />
+                    </ListItem>
+                  </List>
+                </Paper>
               </Box>
             </Box>
 
-            {/* Right column: Weekly Review + Daily Condition */}
-            <Box sx={{ gridColumn: { xs: '1', lg: '3' }, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {/* Right column: Weekly Review + Daily Condition remain stacked; Daily Condition stretches to bottom */}
+            <Box sx={{ gridColumn: { xs: '1', lg: '3' }, display: 'flex', flexDirection: 'column', gap: 3, alignSelf: 'stretch' }}>
               {/* Weekly Review (Calendar) */}
               <Paper elevation={0} sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)' }}>
                 <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>📅 Weekly Review</Typography>
@@ -394,7 +429,7 @@ const UserProfile = () => {
               </Paper>
 
               {/* Daily Condition with circular bar like dashboard */}
-              <Paper elevation={0} sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <Paper elevation={0} sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexGrow: 1 }}>
                 <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Daily Condition</Typography>
                 <CircularProgress percentage={85} color="#10b981" valueText="85 %" label="Overall Wellness Score" />
               </Paper>

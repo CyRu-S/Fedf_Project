@@ -113,36 +113,105 @@ function NutritionistCommunication() {
         />
 
         {/* Main Content */}
-        <Box sx={{ flex: 1, overflow: 'auto' }}>
+        <Box sx={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
           {/* Communication Content */}
-          <Box sx={{ px: 5, py: 2 }}>
+          <Box sx={{ px: { xs: 2.5, md: 5 }, py: 3, flex: 1, display: 'flex', flexDirection: 'column' }}>
             {/* Header Section */}
-            <Box sx={{ mb: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box
+              sx={{
+                mb: 4,
+                display: 'flex',
+                alignItems: { xs: 'flex-start', md: 'flex-end' },
+                justifyContent: 'space-between',
+                gap: 2,
+              }}
+            >
               <Box>
-                <Typography sx={{ color: '#6b7280', fontSize: 18, mb: 1, fontFamily: 'Chillax, sans-serif' }}>
+                <Typography sx={{ color: '#6b7280', fontSize: 16, mb: 0.75, fontFamily: 'Chillax, sans-serif' }}>
                   Overview
                 </Typography>
-                <Typography variant="h3" sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 500 }}>
+                <Typography
+                  variant="h4"
+                  sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 600, letterSpacing: 0.2 }}
+                >
                   Communication Overview
                 </Typography>
               </Box>
-            </Box>            {/* Grid Layout */}
-            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '340px 1fr 320px' }, gap: 3 }}>
+              <Typography
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                  fontSize: 13,
+                  color: '#9ca3af',
+                  maxWidth: 260,
+                  textAlign: 'right',
+                }}
+              >
+                Manage your patient conversations, notes, and personalized diet plans in one focused view.
+              </Typography>
+            </Box>
+
+            {/* Grid Layout */}
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', lg: '320px minmax(0, 1.5fr) 340px' },
+                gap: 3,
+                alignItems: 'stretch',
+                flex: 1,
+                minHeight: { lg: 620 },
+              }}
+            >
               {/* Chat List */}
-              <Card sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', display: 'flex', flexDirection: 'column', gap: 2, minHeight: 650 }}>
-                <Typography sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 600, fontSize: 24 }}>Your Chats</Typography>
+              <Card
+                sx={{
+                  p: 3,
+                  borderRadius: 5,
+                  backgroundColor: '#ffffff',
+                  boxShadow: '0 10px 40px rgba(15,23,42,0.06)',
+                  border: '1px solid rgba(148, 163, 184, 0.35)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 2,
+                  minHeight: 620,
+                }}
+              >
+                <Typography sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 600, fontSize: 22 }}>
+                  Your Chats
+                </Typography>
                 <TextField
                   size="small"
-                  placeholder="Search"
+                  placeholder="Search patients or notes"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   InputProps={{
-                    startAdornment: (<InputAdornment position="start"><SearchRounded sx={{ fontSize: 20, color: '#64748b' }} /></InputAdornment>),
-                    endAdornment: (<InputAdornment position="end"><MicRounded sx={{ fontSize: 20, color: '#64748b' }} /></InputAdornment>),
-                    sx: { borderRadius: 3, background: '#f1f5f9', '& fieldset': { border: 'none' } }
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchRounded sx={{ fontSize: 20, color: '#64748b' }} />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <MicRounded sx={{ fontSize: 20, color: '#64748b' }} />
+                      </InputAdornment>
+                    ),
+                    sx: {
+                      borderRadius: 999,
+                      background: '#f1f5f9',
+                      '& fieldset': { border: 'none' },
+                      px: 0.5,
+                    },
                   }}
                 />
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.25, overflow: 'auto', pr: .5 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1.25,
+                    overflow: 'auto',
+                    pr: 0.5,
+                    mt: 0.5,
+                  }}
+                >
                   {filteredUsers.map(u => (
                     <Card
                       key={u.id}
@@ -160,23 +229,69 @@ function NutritionistCommunication() {
                     <Typography sx={{ fontSize: 12, color: '#64748b', textAlign: 'center', py: 2 }}>No matches</Typography>
                   )}
                 </Box>
-              </Card>              {/* Chat Panel */}
-              <Card sx={{ p: 0, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', display: 'flex', flexDirection: 'column', minHeight: 650 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, background: '#fef6e3', px: 3, py: 2, borderTopLeftRadius: 6, borderTopRightRadius: 6 }}>
+              </Card>
+
+              {/* Chat Panel */}
+              <Card
+                sx={{
+                  p: 0,
+                  borderRadius: 5,
+                  backgroundColor: '#ffffff',
+                  boxShadow: '0 10px 40px rgba(15,23,42,0.06)',
+                  border: '1px solid rgba(148, 163, 184, 0.35)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  minHeight: 620,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 2,
+                    background: 'linear-gradient(135deg,#fef3c7 0%, #fffbeb 60%)',
+                    px: 3,
+                    py: 2,
+                    borderTopLeftRadius: 5,
+                    borderTopRightRadius: 5,
+                    borderBottom: '1px solid rgba(248, 250, 252, 0.9)',
+                  }}
+                >
                   <Avatar sx={{ bgcolor: activeUser.avatarBg, width: 50, height: 50, fontWeight: 600 }}>{activeUser.name.split(' ').map(p => p[0]).join('').slice(0, 2)}</Avatar>
                   <Box>
                     <Typography sx={{ fontWeight: 600, fontFamily: 'Chillax, sans-serif' }}>{activeUser.name}</Typography>
                     <Typography sx={{ fontSize: 12, color: '#64748b' }}>{activeUser.note}</Typography>
                   </Box>
                 </Box>
-                <Box sx={{ flex: 1, p: 3, display: 'flex', flexDirection: 'column', gap: 1.75, overflow: 'auto' }}>
+                <Box
+                  sx={{
+                    flex: 1,
+                    p: 3,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 1.75,
+                    overflow: 'auto',
+                    background:
+                      'radial-gradient(circle at top left, rgba(239, 246, 255, 0.9), #f9fafb 55%)',
+                  }}
+                >
                   {(messages[activeId] || []).map((m, i) => (
                     <Box key={i} sx={{ alignSelf: i % 2 ? 'flex-start' : 'flex-end', maxWidth: '70%' }}>
                       <Box sx={{ background: i % 2 ? '#e2e8f0' : '#6366f1', color: i % 2 ? '#111827' : '#ffffff', px: 2, py: 1, borderRadius: 3, fontSize: 13, fontFamily: 'Chillax, sans-serif', boxShadow: '0 2px 4px rgba(0,0,0,0.08)' }}>{m}</Box>
                     </Box>
                   ))}
                 </Box>
-                <Box sx={{ px: 3, py: 2, borderTop: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', gap: 1.25 }}>
+                <Box
+                  sx={{
+                    px: 3,
+                    py: 2,
+                    borderTop: '1px solid #e2e8f0',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1.25,
+                    backgroundColor: '#f9fafb',
+                  }}
+                >
                   <IconButton sx={{ background: '#f1f5f9', borderRadius: 3 }}><AddRounded /></IconButton>
                   <TextField
                     fullWidth
@@ -192,11 +307,29 @@ function NutritionistCommunication() {
               </Card>
 
               {/* Personalized Diet Plan Column */}
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                <Card sx={{ p: 0, borderRadius: 6, overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: '#ede8ff', display: 'flex', flexDirection: 'column', minHeight: 400 }}>
-                  <Box sx={{ background: '#ded3ff', px: 3, py: 2 }}>
-                    <Typography sx={{ fontWeight: 700, fontSize: 20, fontFamily: 'Chillax, sans-serif' }}>Personalized Diet Plan</Typography>
-                    <Typography sx={{ fontSize: 12, color: '#4b5563', mt: 0.5 }}>For {activeUser.name}</Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, minHeight: 620 }}>
+                <Card
+                  sx={{
+                    p: 0,
+                    borderRadius: 5,
+                    overflow: 'hidden',
+                    boxShadow: '0 10px 40px rgba(15,23,42,0.06)',
+                    border: '1px solid rgba(148, 163, 184, 0.35)',
+                    background:
+                      'linear-gradient(145deg, rgba(224,231,255,1) 0%, rgba(237,233,254,1) 45%, rgba(238,242,255,1) 100%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flexGrow: 1,
+                    minHeight: 380,
+                  }}
+                >
+                  <Box sx={{ background: 'rgba(129,140,248,0.12)', px: 3, py: 2.25 }}>
+                    <Typography sx={{ fontWeight: 700, fontSize: 20, fontFamily: 'Chillax, sans-serif' }}>
+                      Personalized Diet Plan
+                    </Typography>
+                    <Typography sx={{ fontSize: 12, color: '#4b5563', mt: 0.5 }}>
+                      For {activeUser.name}
+                    </Typography>
                   </Box>
                   <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 2 }}>
                     {activeUser.dietPlan.map(item => (
@@ -211,8 +344,58 @@ function NutritionistCommunication() {
                     ))}
                   </Box>
                 </Card>
-                <Card onClick={() => navigate('/diet-plan')} sx={{ p: 4, background: 'linear-gradient(135deg,#d1fae5 0%, #a5f3fc 100%)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(0,0,0,0.05)', minHeight: 200, cursor: 'pointer' }}>
-                  <Typography sx={{ fontSize: 30, fontWeight: 600, color: '#111827', fontFamily: 'Chillax, sans-serif' }}>Diet Plan</Typography>
+                <Card
+                  onClick={() => navigate('/diet-plan')}
+                  sx={{
+                    p: 3.5,
+                    background: 'linear-gradient(135deg,#bbf7d0 0%, #a5f3fc 40%, #bfdbfe 100%)',
+                    borderRadius: 5,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    boxShadow: '0 12px 30px rgba(15,23,42,0.18)',
+                    cursor: 'pointer',
+                    mt: 0.5,
+                    border: '1px solid rgba(34,197,94,0.45)',
+                  }}
+                >
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: 14,
+                        letterSpacing: 1.5,
+                        textTransform: 'uppercase',
+                        color: 'rgba(15,23,42,0.7)',
+                        fontWeight: 600,
+                      }}
+                    >
+                      Quick Access
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 26,
+                        fontWeight: 700,
+                        color: '#111827',
+                        fontFamily: 'Chillax, sans-serif',
+                        mt: 0.5,
+                      }}
+                    >
+                      Diet Plan
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      px: 2.5,
+                      py: 1,
+                      borderRadius: 999,
+                      backgroundColor: 'rgba(15,23,42,0.08)',
+                      fontSize: 13,
+                      fontWeight: 600,
+                      color: '#111827',
+                    }}
+                  >
+                    Open
+                  </Box>
                 </Card>
               </Box>
             </Box>

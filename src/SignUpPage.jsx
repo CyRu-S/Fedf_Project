@@ -35,21 +35,96 @@ function SignUpPage() {
     primaryGoal: '',
   });
 
+  const [errors, setErrors] = useState({});
+
   // Handle input changes for all form fields
   const handleChange = (field) => (event) => {
     setFormData({
       ...formData,
       [field]: event.target.value,
     });
+    setErrors((prev) => ({ ...prev, [field]: '' }));
   };
 
   // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    const newErrors = {};
+
+    // First/Last name: required, letters only
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    }
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+    }
+
+    // Email: basic pattern
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Enter a valid email address';
+    }
+
+    // Password: min 8 chars, at least 1 letter and 1 number, match confirm
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+    } else if (!/(?=.*[A-Za-z])(?=.*\d)/.test(formData.password)) {
+      newErrors.password = 'Password must include a letter and a number';
+    }
+
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (formData.confirmPassword !== formData.password) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+
+    // Age: required, 10–100
+    const ageNum = Number(formData.age);
+    if (!formData.age) {
+      newErrors.age = 'Age is required';
+    } else if (Number.isNaN(ageNum) || ageNum < 10 || ageNum > 100) {
+      newErrors.age = 'Enter a valid age between 10 and 100';
+    }
+
+    // Gender and Role: required
+    if (!formData.gender) {
+      newErrors.gender = 'Please select your gender';
+    }
+    if (!formData.role) {
+      newErrors.role = 'Please select your role';
+    }
+
+    // Weight: required, positive
+    const weightNum = Number(formData.weight);
+    if (!formData.weight) {
+      newErrors.weight = 'Weight is required';
+    } else if (Number.isNaN(weightNum) || weightNum <= 0) {
+      newErrors.weight = 'Enter a valid weight in kg';
+    }
+
+    // Height: required, positive
+    const heightNum = Number(formData.height);
+    if (!formData.height) {
+      newErrors.height = 'Height is required';
+    } else if (Number.isNaN(heightNum) || heightNum <= 0) {
+      newErrors.height = 'Enter a valid height in cm';
+    }
+
+    // Primary goal: required
+    if (!formData.primaryGoal.trim()) {
+      newErrors.primaryGoal = 'Please enter your primary goal';
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return; // prevent navigation if invalid
+    }
+
     console.log('Form submitted:', formData);
-    
-    // Add your form validation here if needed
-    // Redirect to AccessPage (split screen) after registration
     navigate('/');
   };
 
@@ -162,6 +237,9 @@ function SignUpPage() {
                 value={formData.firstName}
                 onChange={handleChange('firstName')}
                 variant="outlined"
+                placeholder="Enter your first name"
+                error={Boolean(errors.firstName)}
+                helperText={errors.firstName || ''}
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     backgroundColor: '#f3f4f6',
@@ -189,6 +267,9 @@ function SignUpPage() {
                 value={formData.lastName}
                 onChange={handleChange('lastName')}
                 variant="outlined"
+                placeholder="Enter your last name"
+                error={Boolean(errors.lastName)}
+                helperText={errors.lastName || ''}
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     backgroundColor: '#f3f4f6',
@@ -217,6 +298,9 @@ function SignUpPage() {
                 value={formData.email}
                 onChange={handleChange('email')}
                 variant="outlined"
+                placeholder="you@example.com"
+                error={Boolean(errors.email)}
+                helperText={errors.email || ''}
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     backgroundColor: '#f3f4f6',
@@ -246,6 +330,9 @@ function SignUpPage() {
                   value={formData.password}
                   onChange={handleChange('password')}
                   variant="outlined"
+                  placeholder="Create a strong password"
+                  error={Boolean(errors.password)}
+                  helperText={errors.password || ''}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: '#f3f4f6',
@@ -272,6 +359,9 @@ function SignUpPage() {
                   value={formData.confirmPassword}
                   onChange={handleChange('confirmPassword')}
                   variant="outlined"
+                  placeholder="Re-enter your password"
+                  error={Boolean(errors.confirmPassword)}
+                  helperText={errors.confirmPassword || ''}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: '#f3f4f6',
@@ -302,6 +392,9 @@ function SignUpPage() {
                   value={formData.age}
                   onChange={handleChange('age')}
                   variant="outlined"
+                  placeholder="e.g. 28"
+                  error={Boolean(errors.age)}
+                  helperText={errors.age || ''}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: '#f3f4f6',
@@ -328,6 +421,9 @@ function SignUpPage() {
                   value={formData.gender}
                   onChange={handleChange('gender')}
                   variant="outlined"
+                  placeholder="Select gender"
+                  error={Boolean(errors.gender)}
+                  helperText={errors.gender || ''}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: '#f3f4f6',
@@ -358,6 +454,9 @@ function SignUpPage() {
                   value={formData.role}
                   onChange={handleChange('role')}
                   variant="outlined"
+                  placeholder="Select role"
+                  error={Boolean(errors.role)}
+                  helperText={errors.role || ''}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: '#f3f4f6',
@@ -391,6 +490,9 @@ function SignUpPage() {
                   value={formData.weight}
                   onChange={handleChange('weight')}
                   variant="outlined"
+                  placeholder="e.g. 70"
+                  error={Boolean(errors.weight)}
+                  helperText={errors.weight || ''}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: '#f3f4f6',
@@ -417,6 +519,9 @@ function SignUpPage() {
                   value={formData.height}
                   onChange={handleChange('height')}
                   variant="outlined"
+                  placeholder="e.g. 172"
+                  error={Boolean(errors.height)}
+                  helperText={errors.height || ''}
                   sx={{
                     '& .MuiOutlinedInput-root': {
                       backgroundColor: '#f3f4f6',
@@ -445,6 +550,9 @@ function SignUpPage() {
                 value={formData.primaryGoal}
                 onChange={handleChange('primaryGoal')}
                 variant="outlined"
+                placeholder="e.g. Lose 5 kg in 3 months, build muscle, improve energy..."
+                error={Boolean(errors.primaryGoal)}
+                helperText={errors.primaryGoal || ''}
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     backgroundColor: '#f3f4f6',
