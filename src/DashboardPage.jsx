@@ -43,12 +43,14 @@ import { motion, AnimatePresence, color } from 'framer-motion';
 import AppSidebar from './components/AppSidebar';
 import AppTopBar from './components/AppTopBar';
 import { useNutrition } from './contexts/NutritionContext';
+import { useAuth } from './contexts/AuthContext';
 
 /**
  * DashboardPage Component
  * User dashboard with nutrition tracking, habits, and activity monitoring
  */
 function DashboardPage() {
+  const { user } = useAuth();
   const { 
     dailyStats, 
     waterIntake, 
@@ -58,6 +60,7 @@ function DashboardPage() {
     selectedPeriod,
     setSelectedPeriod 
   } = useNutrition();
+  
   const [hoveredBar, setHoveredBar] = useState(null);
 
   // Dialog state for meditation and running
@@ -169,29 +172,27 @@ function DashboardPage() {
 
   // Generate chart data based on selectedPeriod
   const generateChartData = () => {
+    if (!Array.isArray(loggedFoods) || loggedFoods.length === 0) return [];
+
     if (selectedPeriod === 'month') {
-      // Last 12 months
-      const months = [
-        'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-      ];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return months.map((month, index) => {
         const d = new Date();
         d.setMonth(d.getMonth() - (11 - index));
-        const monthKey = d.toISOString().slice(0,7); // YYYY-MM
+        const monthKey = d.toISOString().slice(0, 7); // YYYY-MM
         const calories = loggedFoods
-          .filter(food => food.loggedAt.startsWith(monthKey))
+          .filter(food => typeof food.loggedAt === 'string' && food.loggedAt.startsWith(monthKey))
           .reduce((acc, food) => acc + (food.calories || 0), 0);
         return { month, calories };
       });
     } else if (selectedPeriod === 'week') {
-      // Mon to Sun
       const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
       return weekDays.map((day, index) => {
         const d = new Date();
         d.setDate(d.getDate() - (6 - index));
+        const dayKey = d.toISOString().slice(0, 10);
         const calories = loggedFoods
-          .filter(food => food.loggedAt.startsWith(d.toISOString().slice(0,10)))
+          .filter(food => typeof food.loggedAt === 'string' && food.loggedAt.startsWith(dayKey))
           .reduce((acc, food) => acc + (food.calories || 0), 0);
         return { day, calories };
       });
@@ -420,7 +421,7 @@ function DashboardPage() {
                 Dashboard
               </Typography>
               <Typography variant="h3" sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 500 }}>
-                Welcome back, John!
+                Welcome back, {user?.profile?.firstName || 'User'}!
               </Typography>
             </Box>
             </Box>

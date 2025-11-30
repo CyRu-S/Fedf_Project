@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth } from './contexts/AuthContext';
 import {
   Box,
   TextField,
@@ -19,6 +20,7 @@ import NutriWellBrand from './components/NutriWellBrand';
  */
 function SignUpPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   
   // State to store all form data
   const [formData, setFormData] = useState({
@@ -47,7 +49,7 @@ function SignUpPage() {
   };
 
   // Handle form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newErrors = {};
 
@@ -124,8 +126,39 @@ function SignUpPage() {
       return; // prevent navigation if invalid
     }
 
-    console.log('Form submitted:', formData);
-    navigate('/');
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          age: Number(formData.age),
+          gender: formData.gender,
+          weight: Number(formData.weight),
+          height: Number(formData.height),
+          primaryGoal: formData.primaryGoal,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {        // backend validation / duplicate email, etc.
+        setErrors((prev) => ({ ...prev, email: data.message || 'Registration failed' }));
+        return;
+      }
+
+      // Registration successful - redirect to login page
+      // User needs to login with their credentials
+      navigate('/access');
+    } catch (err) {
+      console.error('Registration error:', err);
+      setErrors((prev) => ({ ...prev, email: 'Server error. Please try again.' }));
+    }
   };
 
   return (
@@ -466,7 +499,7 @@ function SignUpPage() {
                   }}
                 >
                   <MenuItem value="nutritionist">Nutritionist</MenuItem>
-                  <MenuItem value="trainer">User</MenuItem>
+                  <MenuItem value="user">User</MenuItem>
                 </TextField>
               </Box>
             </Box>
@@ -587,8 +620,7 @@ function SignUpPage() {
               </Button>
             </Box>
             {/* Already have an account? */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
-              <Typography
+            <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>              <Typography
                 sx={{
                   fontSize: '14px',
                   color: '#2d3748',
@@ -599,7 +631,7 @@ function SignUpPage() {
                 Already have an account?{' '}
                 <Typography
                   component="span"
-                  onClick={() => navigate('/')}
+                  onClick={() => navigate('/access')}
                   sx={{
                     color: '#6fb86d',
                     cursor: 'pointer',

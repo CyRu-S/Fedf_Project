@@ -28,7 +28,7 @@ import { useNutrition } from './contexts/NutritionContext';
  * Food logging and daily progress tracking page
  */
 function DailyProgressLogPage() {
-  const { loggedFoods, waterIntake, addFood, removeFood, updateWaterIntake } = useNutrition();
+  const { loggedFoods, waterIntake, addFood, removeFood, addWater } = useNutrition();
   const [selectedPortion, setSelectedPortion] = useState('Medium');
   const [timeInput, setTimeInput] = useState('');
 
@@ -106,7 +106,7 @@ function DailyProgressLogPage() {
   }, {});
 
   const handleAddWater = (amount) => {
-    updateWaterIntake(amount);
+    addWater(amount);
   };
 
   const handleLogFood = (food) => {

@@ -13,7 +13,7 @@ import { useNutrition } from './contexts/NutritionContext';
  */
 function NotificationSettings() {
   const navigate = useNavigate();
-  const { notificationSettings, updateNotificationSetting } = useNutrition();
+  const { notificationSettings, setNotificationSettings } = useNutrition();
   
   // Local state for temporary settings
   const [localSettings, setLocalSettings] = React.useState(notificationSettings);
@@ -33,10 +33,8 @@ function NotificationSettings() {
 
   // Save settings handler - update context with local settings
   const handleSaveSettings = () => {
-    // Update each setting in the context
-    Object.entries(localSettings).forEach(([key, value]) => {
-      updateNotificationSetting(key, value);
-    });
+    // Update all settings in the context at once
+    setNotificationSettings(localSettings);
     
     // Show success message
     alert('Notification settings saved!');

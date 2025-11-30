@@ -78,8 +78,18 @@
   padding: 56px 48px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch; /* allow form to take full width */
   justify-content: flex-start;
+}
+
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form input {
+  max-width: 100%;
 }
 
 .brand-row {
@@ -124,13 +134,14 @@
 
 .login-right input[type="text"],
 .login-right input[type="password"],
-.login-right input[type="text"]:not(:placeholder-shown) {
+.login-right input[type="text"]:not(:placeholder-shown),
+.login-right input[type="email"] {
   font-size: 1.12rem;
   padding: 16px 12px;
   margin-bottom: 18px;
   border: 1.5px solid #dcd6fb;
   border-radius: 10px;
-  width: 100%;
+  width: 100%; /* stretch inputs to full width of white card */
   background: #fafbfe;
   outline: none;
   transition: box-shadow 0.15s;
@@ -138,6 +149,14 @@
 
 .login-right input:focus {
   box-shadow: 0 0 0 2px #4a4694;
+}
+
+.error-text {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  font-family: 'Chillax', sans-serif;
 }
 
 .login-btn {

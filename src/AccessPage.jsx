@@ -12,9 +12,12 @@ import { useAuth } from './contexts/AuthContext';
 function AccessPage() {
   const navigate = useNavigate();
 
-  const { login } = useAuth();
-
   // Handle login for different user types
+  const handleLogin = (type) => {
+    if (type === 'user') {
+      navigate('/login-user');
+    } else if (type === 'professional') {
+      navigate('/login'); // For professional login (you can create a separate route if needed)
   // Navigate to appropriate login page instead of logging in directly
   const goToLogin = (type) => {
     if (type === 'professional') {
@@ -26,7 +29,6 @@ function AccessPage() {
 
   // Handle sign up - redirects to SignUpPage
   const handleSignUp = (type) => {
-    console.log(`Sign up as ${type}`);
     navigate('/signup');
   };
 

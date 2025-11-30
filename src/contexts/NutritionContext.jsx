@@ -1,4 +1,5 @@
 ﻿import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 const NutritionContext = createContext();
 
@@ -11,17 +12,60 @@ export const useNutrition = () => {
 };
 
 export const NutritionProvider = ({ children }) => {
-  const [loggedFoods, setLoggedFoods] = useState([]);
-  const [waterIntake, setWaterIntake] = useState(0);
+  const { user } = useAuth();
+
+  const calculateStats = (foods) => {
+    return foods.reduce((acc, food) => {
+      acc.totalCalories += food.calories || 0;
+      acc.totalProtein += food.protein || 0;
+      acc.totalFats += food.fats || 0;
+      acc.totalCarbs += food.carbs || 0;
+      return acc;
+    }, { totalCalories: 0, totalProtein: 0, totalFats: 0, totalCarbs: 0 });
+  };
+
+  // Initialize state synchronously from localStorage to prevent flash of zero values
+  const [loggedFoods, setLoggedFoods] = useState(() => {
+    if (!user?.id) return [];
+    try {
+      const userKey = `nutriwell_${user.id}`;
+      const savedFoods = localStorage.getItem(`${userKey}_logged_foods`);
+      return savedFoods ? JSON.parse(savedFoods) : [];
+    } catch (error) {
+      console.error('Failed to load logged foods from localStorage', error);
+      return [];
+    }
+  });
+
+  const [waterIntake, setWaterIntake] = useState(() => {
+    if (!user?.id) return 0;
+    try {
+      const userKey = `nutriwell_${user.id}`;
+      const savedWater = localStorage.getItem(`${userKey}_water_intake`);
+      return savedWater ? parseFloat(savedWater) || 0 : 0;
+    } catch (error) {
+      console.error('Failed to load water intake from localStorage', error);
+      return 0;
+    }
+  });
+
+  const [dailyStats, setDailyStats] = useState(() => {
+    // Calculate initial stats based on the synchronously loaded foods
+    if (!user?.id) return { totalCalories: 0, totalProtein: 0, totalFats: 0, totalCarbs: 0, waterGoal: 3.0 };
+    try {
+      const userKey = `nutriwell_${user.id}`;
+      const savedFoods = localStorage.getItem(`${userKey}_logged_foods`);
+      const foods = savedFoods ? JSON.parse(savedFoods) : [];
+      const stats = calculateStats(foods);
+      return { ...stats, waterGoal: 3.0 };
+    } catch (error) {
+      return { totalCalories: 0, totalProtein: 0, totalFats: 0, totalCarbs: 0, waterGoal: 3.0 };
+    }
+  });
+
   const [selectedPeriod, setSelectedPeriod] = useState('week');
   const [showCongratulation, setShowCongratulation] = useState(false);
-  const [dailyStats, setDailyStats] = useState({
-    totalCalories: 0,
-    totalProtein: 0,
-    totalFats: 0,
-    totalCarbs: 0,
-    waterGoal: 3.0,
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const [notificationStates, setNotificationStates] = useState({
     protein: false,
@@ -39,10 +83,8 @@ export const NutritionProvider = ({ children }) => {
     calories: false,
   });
 
-  // Notification settings state
-  const [notificationSettings, setNotificationSettings] = useState(() => {
-    const savedSettings = localStorage.getItem('nutriwell_notification_settings');
-    return savedSettings ? JSON.parse(savedSettings) : {
+  function getDefaultNotificationSettings() {
+    return {
       // Reminders group
       dailyWaterIntake: true,
       mealAlerts: true,
@@ -61,70 +103,179 @@ export const NutritionProvider = ({ children }) => {
       vibrate: true,
       priorityOnly: true,
     };
+  }
+
+  // Notification settings state
+  const [notificationSettings, setNotificationSettings] = useState(() => {
+    if (!user?.id) return getDefaultNotificationSettings();
+    
+    const userKey = `nutriwell_${user.id}`;
+    const savedSettings = localStorage.getItem(`${userKey}_notification_settings`);
+    return savedSettings ? JSON.parse(savedSettings) : getDefaultNotificationSettings();
   });
 
-  // Load data from localStorage on mount
-  // Removed to reset data on manual page refresh
-  /*
+  // This master useEffect handles state changes when the user logs in or out.
   useEffect(() => {
-    const savedFoods = localStorage.getItem('nutriwell_logged_foods');
-    const savedWater = localStorage.getItem('nutriwell_water_intake');
-    if (savedFoods) {
-      setLoggedFoods(JSON.parse(savedFoods));
+    console.log('🔄 NutritionContext: User changed:', user?.id, user?.email);
+    
+    // If no user, reset everything.
+    if (!user?.id) {
+      console.log('❌ No user - resetting all data');
+      setLoggedFoods([]);
+      setWaterIntake(0);
+      setDailyStats({ totalCalories: 0, totalProtein: 0, totalFats: 0, totalCarbs: 0, waterGoal: 3.0 });
+      setNotificationSettings(getDefaultNotificationSettings());
+      return;
     }
-    if (savedWater) {
-      setWaterIntake(parseFloat(savedWater));
-    }
-  }, []);
-  */
 
-  // Save to localStorage whenever data changes
+    // When user changes, re-initialize state from their specific localStorage.
+    // This handles switching between user accounts without mixing data.
+    const userKey = `nutriwell_${user.id}`;
+    console.log('🔑 Loading data for user key:', userKey);
+    
+    // Clear old localStorage keys from previous implementation (one-time cleanup)
+    // Remove non-user-specific keys that might be causing conflicts
+    if (localStorage.getItem('logged_foods')) {
+      localStorage.removeItem('logged_foods');
+      localStorage.removeItem('water_intake');
+      console.log('🧹 Cleaned up old non-user-specific localStorage keys');
+    }
+    
+    try {
+      const savedFoods = localStorage.getItem(`${userKey}_logged_foods`);
+      const foods = savedFoods ? JSON.parse(savedFoods) : [];
+      console.log('💾 Loaded foods from localStorage:', foods.length, 'items');
+      setLoggedFoods(foods);
+
+      const savedWater = localStorage.getItem(`${userKey}_water_intake`);
+      const water = savedWater ? parseFloat(savedWater) : 0;
+      console.log('💧 Loaded water from localStorage:', water, 'L');
+      setWaterIntake(water);
+      
+      const savedSettings = localStorage.getItem(`${userKey}_notification_settings`);
+      setNotificationSettings(savedSettings ? JSON.parse(savedSettings) : getDefaultNotificationSettings());
+
+      const stats = calculateStats(foods);
+      setDailyStats(prev => ({ ...prev, ...stats }));
+    } catch (error) {
+      console.error('Failed to re-initialize nutrition state from localStorage', error);
+    }
+
+    // Asynchronously fetch latest data from the backend to supplement localStorage.
+    const loadTodaysNutrition = async () => {
+      if (!user.token) return;
+      setIsLoading(true);
+      try {
+        const today = new Date().toISOString().split('T')[0];
+        console.log('🌐 Fetching backend data for user:', user.email, 'date:', today);
+        const response = await fetch(`http://localhost:5000/api/nutrition/logs?from=${today}&to=${today}`, {
+          headers: { 'Authorization': `Bearer ${user.token}`, 'Content-Type': 'application/json' },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log('📡 Backend response:', data);
+          if (data.logs && data.logs.length > 0) {
+            const todaysLog = data.logs[0];
+            console.log('✅ Loading backend data for', user.email, ':', todaysLog);
+            setLoggedFoods(todaysLog.foods || []);
+            setWaterIntake(todaysLog.waterIntake || 0);
+          } else {
+            console.log('✨ No backend data found for', user.email);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load nutrition data from backend:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadTodaysNutrition();
+  }, [user?.id, user?.token]);
+
+
+  // Save to user-specific localStorage and backend
   useEffect(() => {
-    localStorage.setItem('nutriwell_logged_foods', JSON.stringify(loggedFoods));
+    if (!user?.id) return;
+    
+    const userKey = `nutriwell_${user.id}`;
+    console.log('💾 Saving logged foods for:', userKey, loggedFoods.length, 'items');
+    localStorage.setItem(`${userKey}_logged_foods`, JSON.stringify(loggedFoods));
+    
+    // Debounce API calls to avoid too many requests
+    const timeoutId = setTimeout(() => {
+      saveTodaysNutrition();
+    }, 1000);
+    
+    return () => clearTimeout(timeoutId);
   }, [loggedFoods]);
 
   useEffect(() => {
-    localStorage.setItem('nutriwell_water_intake', waterIntake.toString());
+    if (!user?.id) return;
+    
+    const userKey = `nutriwell_${user.id}`;
+    console.log('💧 Saving water intake for:', userKey, waterIntake, 'L');
+    localStorage.setItem(`${userKey}_water_intake`, waterIntake.toString());
+
+    const timeoutId = setTimeout(() => {
+      saveTodaysNutrition();
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
   }, [waterIntake]);
 
-  // Save notification settings to localStorage when they change
+  const saveTodaysNutrition = async () => {
+    if (!user?.token) return;
+    
+    try {
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+      await fetch('http://localhost:5000/api/nutrition/logs', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${user.token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: today,
+          foods: loggedFoods,
+          waterIntake: waterIntake,
+        }),
+      });
+    } catch (error) {
+      console.error('Failed to save nutrition data:', error);
+    }
+  };
+
+  // Save notification settings to user-specific localStorage when they change
   useEffect(() => {
-    localStorage.setItem('nutriwell_notification_settings', JSON.stringify(notificationSettings));
-  }, [notificationSettings]);
+    if (!user?.id) return;
+    
+    const userKey = `nutriwell_${user.id}`;
+    localStorage.setItem(`${userKey}_notification_settings`, JSON.stringify(notificationSettings));
+  }, [notificationSettings, user?.id]);
 
-  // Calculate daily stats whenever logged foods change or water intake changes
+  // Calculate daily stats whenever logged foods changes.
   useEffect(() => {
-    const stats = loggedFoods.reduce((acc, food) => {
-      acc.totalCalories += food.calories || 0;
-      acc.totalProtein += food.protein || 0;
-      acc.totalFats += food.fats || 0;
-      acc.totalCarbs += food.carbs || 0;
-
-      return acc;
-    }, {
-      totalCalories: 0,
-      totalProtein: 0,
-      totalFats: 0,
-      totalCarbs: 0,
-    });
-
+    const stats = calculateStats(loggedFoods);
     setDailyStats(prev => ({
       ...prev,
       ...stats,
     }));
+  }, [loggedFoods]);
 
-    // Check for goal achievements
+  // Check for goal achievements whenever stats or water intake change
+  useEffect(() => {
     const proteinGoal = 75;
     const fatsGoal = 50;
     const waterGoal = 3.0;
     const veggieGoal = 5;
     const calorieGoal = 2000;
 
-    if (stats.totalProtein >= proteinGoal && !notificationStates.protein && !shownNotifications.protein) {
+    if (dailyStats.totalProtein >= proteinGoal && !notificationStates.protein && !shownNotifications.protein) {
       setNotificationStates(prev => ({ ...prev, protein: true }));
     }
 
-    if (stats.totalFats >= fatsGoal && !notificationStates.fats && !shownNotifications.fats) {
+    if (dailyStats.totalFats >= fatsGoal && !notificationStates.fats && !shownNotifications.fats) {
       setNotificationStates(prev => ({ ...prev, fats: true }));
     }
 
@@ -137,71 +288,46 @@ export const NutritionProvider = ({ children }) => {
       setNotificationStates(prev => ({ ...prev, veggies: true }));
     }
 
-    if (stats.totalCalories >= calorieGoal && !notificationStates.calories && !shownNotifications.calories) {
+    if (dailyStats.totalCalories >= calorieGoal && !notificationStates.calories && !shownNotifications.calories) {
       setNotificationStates(prev => ({ ...prev, calories: true }));
     }
-  }, [loggedFoods, waterIntake, notificationStates, shownNotifications]);
-
-  // Function to update notification settings
-  const updateNotificationSetting = (setting, value) => {
-    setNotificationSettings(prev => ({
-      ...prev,
-      [setting]: value
-    }));
-  };
+  }, [dailyStats, waterIntake, loggedFoods, notificationStates, shownNotifications]);
 
   const addFood = (food) => {
-    const newFood = {
-      ...food,
-      id: Date.now(),
-      loggedAt: new Date().toISOString(),
-    };
-    setLoggedFoods(prev => [...prev, newFood]);
-
-    // Show congratulations if this is the 5th veggie
-    if (food.category === 'vegetable') {
-      const newVeggieCount = loggedFoods.filter(f => f.category === 'vegetable').length + 1;
-      if (newVeggieCount >= 5) {
-        setShowCongratulation(true);
-        setTimeout(() => setShowCongratulation(false), 5000);
-      }
-    }
+    food.id = food.id || `food_${Date.now()}`;
+    food.loggedAt = food.loggedAt || new Date().toISOString();
+    setLoggedFoods(prevFoods => [...prevFoods, food]);
   };
 
-  const removeFood = (id) => {
-    setLoggedFoods(prev => prev.filter(food => food.id !== id));
+  const removeFood = (foodId) => {
+    setLoggedFoods(prevFoods => prevFoods.filter(f => f.id !== foodId));
   };
 
-  const updateWaterIntake = (amount) => {
-    setWaterIntake(prev => Math.min(prev + amount, 3.0));
+  const addWater = (amount) => {
+    setWaterIntake(prev => Math.max(0, prev + amount));
   };
 
-  const resetDailyData = () => {
-    setLoggedFoods([]);
-    setWaterIntake(0);
+  const resetNotifications = (type) => {
+    setNotificationStates(prev => ({ ...prev, [type]: false }));
+    setShownNotifications(prev => ({ ...prev, [type]: true }));
   };
-
-  const veggiesConsumed = loggedFoods.filter(food => food.category === 'vegetable').length;
 
   const value = {
     loggedFoods,
-    waterIntake,
-    dailyStats,
-    notificationStates,
-    setNotificationStates,
-    shownNotifications,
-    setShownNotifications,
     addFood,
     removeFood,
-    updateWaterIntake,
-    resetDailyData,
-    veggiesConsumed,
+    waterIntake,
+    addWater,
+    dailyStats,
     selectedPeriod,
     setSelectedPeriod,
-    notificationSettings,
-    updateNotificationSetting,
     showCongratulation,
     setShowCongratulation,
+    notificationStates,
+    resetNotifications,
+    notificationSettings,
+    setNotificationSettings,
+    isLoading,
   };
 
   return (

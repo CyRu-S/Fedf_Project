@@ -28,10 +28,14 @@ import AppTopBar from './components/AppTopBar';
 import { SearchRounded, SettingsRounded } from '@mui/icons-material';
 import './UserProfile.css';
 import { styled } from '@mui/material/styles';
+import { useAuth } from './contexts/AuthContext';
 
 const UserProfile = () => {
-  const [weight, setWeight] = useState("");
-  const [bmi, setBmi] = useState(null);  const [diet, setDiet] = useState({
+  const { user } = useAuth();
+  const [weight, setWeight] = useState(user?.profile?.weight?.toString() || "");
+  const [bmi, setBmi] = useState(null);
+  
+  const [diet, setDiet] = useState({
     vegan: true,
     glutenFree: true,
     noRedMeat: true,
@@ -42,10 +46,10 @@ const UserProfile = () => {
   const handleToggle = (key) => {
     setDiet((prev) => ({ ...prev, [key]: !prev[key] }));
   };
-
   const calculateBMI = () => {
     if (!weight || weight <= 0) return;
-    const heightM = 1.8796; // 6'2" in meters
+    const heightCm = user?.profile?.height || 180; // Default to 180cm if no height
+    const heightM = heightCm / 100; // Convert cm to meters
     const calculatedBMI = parseFloat(weight) / (heightM * heightM);
     setBmi(calculatedBMI.toFixed(1));
   };
@@ -254,10 +258,13 @@ const UserProfile = () => {
           </Box>          {/* Layout matching the image exactly */}
           <Box sx={{ px: 5, pb: 4, flex: 1, display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '280px 1fr 360px' }, gap: 3, alignItems: 'stretch' }}>            {/* Left column: Profile stretched to bottom */}
             <Box sx={{ gridColumn: { xs: '1', lg: '1' }, gridRow: '1 / -1', alignSelf: 'stretch' }}>
-              <Paper elevation={0} sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
-                  <Avatar sx={{ width: 100, height: 100, bgcolor: '#cbb7ff', color: '#111827', fontWeight: 700, fontSize: 34 }}>JS</Avatar>
-                  <Typography sx={{ fontWeight: 700, fontSize: 18, mt: 1 }}>John Smith</Typography>
+              <Paper elevation={0} sx={{ p: 3, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%)', height: '100%', display: 'flex', flexDirection: 'column' }}>                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5 }}>
+                  <Avatar sx={{ width: 100, height: 100, bgcolor: '#cbb7ff', color: '#111827', fontWeight: 700, fontSize: 34 }}>
+                    {user?.profile?.firstName?.[0]?.toUpperCase() || 'U'}{user?.profile?.lastName?.[0]?.toUpperCase() || 'S'}
+                  </Avatar>
+                  <Typography sx={{ fontWeight: 700, fontSize: 18, mt: 1 }}>
+                    {user?.profile?.firstName || 'User'} {user?.profile?.lastName || 'Name'}
+                  </Typography>
                   <Typography sx={{ color: '#6b7280', fontSize: 13 }}>Wellness Enthusiast</Typography>
                   <Box sx={{ height: 1, width: '100%', background: '#e5e7eb', my: 2 }} />
                   <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, width: '100%' }}>
@@ -275,16 +282,19 @@ const UserProfile = () => {
                 {/* Info Card (unchanged content) */}
                 {/* just ensure display:flex so it stretches nicely */}
                 <Paper elevation={0} sx={{ p: 2.5, borderRadius: 6, backgroundColor: '#fff', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', border: '1px solid rgba(0, 0, 0, 0.15)', background: 'linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%)', display: 'flex', flexDirection: 'column' }}>
-                  <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Info</Typography>
-                  <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 1.25, columnGap: 2 }}>
+                  <Typography sx={{ fontFamily: 'Chillax', fontSize: 20, fontWeight: 600, color: '#1a1a1a', mb: 2 }}>Info</Typography>                  <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: 1.25, columnGap: 2 }}>
                     <Typography sx={{ color: '#6b7280' }}>Gender</Typography>
-                    <Typography sx={{ fontWeight: 600 }}>Male</Typography>
+                    <Typography sx={{ fontWeight: 600 }}>
+                      {user?.profile?.gender?.charAt(0).toUpperCase() + user?.profile?.gender?.slice(1) || 'Not specified'}
+                    </Typography>
                     <Typography sx={{ color: '#6b7280' }}>Age</Typography>
-                    <Typography sx={{ fontWeight: 600 }}>32</Typography>
+                    <Typography sx={{ fontWeight: 600 }}>{user?.profile?.age || 'Not specified'}</Typography>
                     <Typography sx={{ color: '#6b7280' }}>Language</Typography>
                     <Typography sx={{ fontWeight: 600 }}>English</Typography>
                     <Typography sx={{ color: '#6b7280' }}>Height</Typography>
-                    <Typography sx={{ fontWeight: 600 }}>6'2</Typography>
+                    <Typography sx={{ fontWeight: 600 }}>
+                      {user?.profile?.height ? `${user.profile.height} cm` : 'Not specified'}
+                    </Typography>
                   </Box>
                 </Paper>
 
