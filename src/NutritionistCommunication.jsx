@@ -127,12 +127,12 @@ function NutritionistCommunication() {
               }}
             >
               <Box>
-                <Typography sx={{ color: '#6b7280', fontSize: 16, mb: 0.75, fontFamily: 'Chillax, sans-serif' }}>
+                <Typography sx={{ color: '#6b7280', fontSize: 18, mb: 0.75, fontFamily: 'Chillax, sans-serif' }}>
                   Overview
                 </Typography>
                 <Typography
-                  variant="h4"
-                  sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 600, letterSpacing: 0.2 }}
+                  variant="h3"
+                  sx={{ fontFamily: 'Chillax, sans-serif', fontWeight: 500, letterSpacing: 0.2 }}
                 >
                   Communication Overview
                 </Typography>

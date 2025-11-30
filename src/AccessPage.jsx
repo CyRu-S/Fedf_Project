@@ -12,7 +12,7 @@ import { useAuth } from './contexts/AuthContext';
 function AccessPage() {
   const navigate = useNavigate();
 
-  // Navigate to appropriate login page
+  // Navigate to appropriate login page instead of logging in directly
   const goToLogin = (type) => {
     if (type === 'professional') {
       navigate('/login/pro');
@@ -316,9 +316,7 @@ function AccessPage() {
           </Box>
 
           {/* Bottom spacer pushes button down */}
-          <Box sx={{ flex: 0.7 }} />
-
-          {/* Button at bottom */}
+          <Box sx={{ flex: 0.7 }} />          {/* Button at bottom */}
           <Box>
             <Button
             onClick={() => goToLogin('user')}

@@ -69,94 +69,117 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-
 function App() {
   return (
     <AuthProvider>
       <NutritionProvider>
         <Router>
+          <NotificationContainer />
           <Routes>
             {/* Public routes */}
             <Route path="/access" element={<AccessPage />} />
+            {/* Use fixed login for user login paths */}
             <Route path="/login" element={<UserLoginPageFixed />} />
             <Route path="/login-user" element={<UserLoginPageFixed />} />
+            {/* Original/legacy login paths kept for debugging */}
             <Route path="/login-original" element={<UserLoginPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/test-login" element={<TestLogin />} />
-            <Route path="/debug-login" element={<DebugLoginPage />} />
-            <Route path="/login" element={<AccessPage />} />
             <Route path="/login/pro" element={<LoginPage />} />
             <Route path="/login/user" element={<UserLoginPage />} />
+
             <Route path="/signup" element={<SignUpPage />} />
+
+            {/* Debug/test auth routes - keep for development */}
+            <Route path="/test-login" element={<TestLogin />} />
+            <Route path="/debug-login" element={<DebugLoginPage />} />
+
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
+            {/* Default root redirects to dashboard if authenticated */}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Navigate to="/dashboard" replace />
+                </ProtectedRoute>
+              }
+            />
+
             {/* Protected routes */}
-            <Route path="/" element={
-              <ProtectedRoute>
-                <Navigate to="/dashboard" replace />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/daily-log"
+              element={
+                <ProtectedRoute>
+                  <DailyProgressLogPage />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/daily-log" element={
-              <ProtectedRoute>
-                <DailyProgressLogPage />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/diet-plan"
+              element={
+                <ProtectedRoute>
+                  <UserDietPlanPage />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/diet-plan" element={
-              <ProtectedRoute>
-                <UserDietPlanPage />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/notifications"
+              element={
+                <ProtectedRoute>
+                  <NotificationSettings />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/notifications" element={
-              <ProtectedRoute>
-                <NotificationSettings />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/communication"
+              element={
+                <ProtectedRoute>
+                  <NutritionistCommunication />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/communication" element={
-              <ProtectedRoute>
-                <NutritionistCommunication />
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <UserProfile />
-              </ProtectedRoute>
-            } />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
 
-            <Route path="/debug-nutrition" element={
-              <ProtectedRoute>
-                <DebugNutritionPage />
-              </ProtectedRoute>
-            } />            {/* Clear storage utility page */}
+            <Route
+              path="/debug-nutrition"
+              element={
+                <ProtectedRoute>
+                  <DebugNutritionPage />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Utility & test routes */}
             <Route path="/clear-storage" element={<ClearStoragePage />} />
-            
-            {/* Debug nutrition page */}
-            <Route path="/debug-nutrition" element={
-              <ProtectedRoute>
-                <DebugNutritionPage />
-              </ProtectedRoute>
-            } />
-            
-            {/* User isolation test page */}
-            <Route path="/user-isolation-test" element={
-              <ProtectedRoute>
-                <UserIsolationTest />
-              </ProtectedRoute>
-            } />
 
-            {/* Redirect any unknown routes to login */}
-            <Route path="*" element={<Navigate to="/login" replace />} />
+            <Route
+              path="/user-isolation-test"
+              element={
+                <ProtectedRoute>
+                  <UserIsolationTest />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
-          <NotificationContainer />
         </Router>
       </NutritionProvider>
     </AuthProvider>

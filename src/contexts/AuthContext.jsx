@@ -69,11 +69,24 @@ export const AuthProvider = ({ children }) => {
       throw err;
     }
   };
-
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
     // The ProtectedRoute component will handle the redirect to the login page.
+  };
+
+  const updateUserProfile = (profileData) => {
+    if (!user) return;
+    
+    const updatedUser = {
+      ...user,
+      profile: {
+        ...user.profile,
+        ...profileData,
+      },
+    };
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
   };
 
   return (
@@ -81,7 +94,8 @@ export const AuthProvider = ({ children }) => {
       user, 
       login, 
       logout,
-      loading 
+      loading,
+      updateUserProfile,
     }}>
       {children}
     </AuthContext.Provider>

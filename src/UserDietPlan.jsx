@@ -54,8 +54,10 @@ import './UserDietPlanPage.css';
 import AppSidebar from './components/AppSidebar';
 import AppTopBar from './components/AppTopBar';
 import { SearchRounded, SettingsRounded } from '@mui/icons-material';
+import { useAuth } from './contexts/AuthContext';
 
 const UserDietPlanPage = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState(0);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [completedMeals, setCompletedMeals] = useState({});
@@ -68,16 +70,18 @@ const UserDietPlanPage = () => {
     targetCalories: 2000
   });
 
-  // Mock user data
+  // Get user data from auth context
   const userData = {
-    name: 'Cyrus Johnson',
-    email: 'cyrus@email.com',
-    avatar: '👨‍💻',
+    name: user?.profile?.firstName && user?.profile?.lastName 
+      ? `${user.profile.firstName} ${user.profile.lastName}` 
+      : 'User',
+    email: user?.email || 'user@email.com',
+    avatar: user?.profile?.firstName?.[0]?.toUpperCase() || '👤',
     nutritionist: 'Dr. Sarah Wilson',
-    goal: 'Weight Loss',
+    goal: user?.profile?.primaryGoal || 'Weight Loss',
     startDate: '2024-10-01',
     targetWeight: '70 kg',
-    currentWeight: '75 kg'
+    currentWeight: user?.profile?.weight ? `${user.profile.weight} kg` : '75 kg'
   };
 
   // Mock diet plans data

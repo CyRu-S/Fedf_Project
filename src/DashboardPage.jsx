@@ -5,8 +5,6 @@ import {
   Card,
   Button,
   LinearProgress,
-  Snackbar,
-  Alert,
   Select,
   MenuItem,
   Dialog,
@@ -56,7 +54,7 @@ function DashboardPage() {
     waterIntake, 
     loggedFoods, 
     notificationStates,
-    veggiesConsumed,
+    veggieCount,
     selectedPeriod,
     setSelectedPeriod 
   } = useNutrition();
@@ -645,8 +643,8 @@ function DashboardPage() {
               <HabitCard
                 icon={<Spa sx={{ fontSize: 48, color: '#2ade80' }} />}
                 title="Eat 5 Veggies"
-                progress={`${veggiesConsumed} /5 Veggie`}
-                isCompleted={veggiesConsumed >= 5}
+                progress={`${veggieCount} / 5 Veggies`}
+                isCompleted={veggieCount >= 5}
                 bgColor="#e1fae5"
                 sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
               />
@@ -912,108 +910,8 @@ function DashboardPage() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </Box>
-        </DialogContent>
+          </Box>        </DialogContent>
       </Dialog>
-      
-      {/* Congratulation Notifications */}
-      <Box sx={{ position: 'fixed', top: 16, right: 16, display: 'flex', flexDirection: 'column', gap: 1, zIndex: 1300 }}>
-        <Snackbar
-          open={notificationStates.protein}
-          autoHideDuration={4000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          onClose={() => setNotificationStates(prev => ({ ...prev, protein: false }))}
-        >
-          <Alert 
-            severity="success" 
-            sx={{ 
-              backgroundColor: '#cbb7ff',
-              color: 'white',
-              fontFamily: 'Chillax, sans-serif',
-              fontWeight: 600,
-              '& .MuiAlert-icon': { color: 'white' },
-            }}
-          >
-            🎉 Congratulations! You've reached your daily protein goal!
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          open={notificationStates.fats}
-          autoHideDuration={4000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          onClose={() => setNotificationStates(prev => ({ ...prev, fats: false }))}
-        >
-          <Alert 
-            severity="success" 
-            sx={{ 
-              backgroundColor: '#7ef0ff',
-              color: 'black',
-              fontFamily: 'Chillax, sans-serif',
-              fontWeight: 600,
-              '& .MuiAlert-icon': { color: 'black' },
-            }}
-          >
-            🎉 Congratulations! You've reached your daily fats goal!
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          open={notificationStates.water}
-          autoHideDuration={4000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          onClose={() => setNotificationStates(prev => ({ ...prev, water: false }))}
-        >
-          <Alert 
-            severity="success" 
-            sx={{ 
-              backgroundColor: '#0ea5e9',
-              color: 'white',
-              fontFamily: 'Chillax, sans-serif',
-              fontWeight: 600,
-              '& .MuiAlert-icon': { color: 'white' },
-            }}
-          >
-            🎉 Congratulations! You've completed your daily water intake!
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          open={notificationStates.veggies}
-          autoHideDuration={4000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          onClose={() => setNotificationStates(prev => ({ ...prev, veggies: false }))}
-        >
-          <Alert 
-            severity="success" 
-            sx={{ 
-              backgroundColor: '#2ade80',
-              color: 'black',
-              fontFamily: 'Chillax, sans-serif',
-              fontWeight: 600,
-              '& .MuiAlert-icon': { color: 'black' },
-            }}
-          >
-            🎉 Congratulations! You've eaten 5 veggies today!
-          </Alert>
-        </Snackbar>
-        <Snackbar
-          open={notificationStates.calories}
-          autoHideDuration={4000}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          onClose={() => setNotificationStates(prev => ({ ...prev, calories: false }))}
-        >
-          <Alert 
-            severity="success" 
-            sx={{ 
-              backgroundColor: '#fde68a',
-              color: 'black',
-              fontFamily: 'Chillax, sans-serif',
-              fontWeight: 600,
-              '& .MuiAlert-icon': { color: 'black' },
-            }}
-          >
-            🎉 Congratulations! You've crossed 2000 calories today!
-          </Alert>
-        </Snackbar>
-      </Box>
     </Box>
   );
 }

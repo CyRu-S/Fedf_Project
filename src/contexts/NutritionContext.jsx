@@ -293,6 +293,8 @@ export const NutritionProvider = ({ children }) => {
     }
   }, [dailyStats, waterIntake, loggedFoods, notificationStates, shownNotifications]);
 
+  const veggieCount = loggedFoods.filter(food => food.category === 'vegetable').length;
+
   const addFood = (food) => {
     food.id = food.id || `food_${Date.now()}`;
     food.loggedAt = food.loggedAt || new Date().toISOString();
@@ -312,6 +314,14 @@ export const NutritionProvider = ({ children }) => {
     setShownNotifications(prev => ({ ...prev, [type]: true }));
   };
 
+  // Helper to safely close a notification by key
+  const closeNotification = (key) => {
+    if (!key) return;
+    // Guard: if setNotificationStates not available, no-op
+    if (typeof setNotificationStates !== 'function') return;
+    setNotificationStates(prev => ({ ...prev, [key]: false }));
+  };
+
   const value = {
     loggedFoods,
     addFood,
@@ -328,6 +338,8 @@ export const NutritionProvider = ({ children }) => {
     notificationSettings,
     setNotificationSettings,
     isLoading,
+    veggieCount,
+    closeNotification,
   };
 
   return (
