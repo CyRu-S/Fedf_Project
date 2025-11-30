@@ -9,9 +9,16 @@ import NotificationSettings from './NotificationSettings';
 import NutritionistCommunication from './NutritionistCommunication';
 import UserDietPlanPage from './UserDietPlan.jsx';
 import UserProfile from './UserProfile.jsx';
+import ClearStoragePage from './ClearStoragePage.jsx';
+import DebugNutritionPage from './DebugNutritionPage.jsx';
+import UserIsolationTest from './UserIsolationTest.jsx';
 import { NutritionProvider } from './contexts/NutritionContext';
 import NotificationContainer from './components/NotificationContainer';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import UserLoginPage from './components/UserLoginPage.jsx';
+import TestLogin from './components/TestLogin.jsx';
+import DebugLoginPage from './components/DebugLoginPage.jsx';
+import UserLoginPageFixed from './components/UserLoginPageFixed.jsx';
 
 /**
  * Main App Component
@@ -60,47 +67,20 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// Route initializer to handle first-visit redirect and path persistence
-const RouteInitializer = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  // Run once to decide initial route
-  React.useEffect(() => {
-    if (!sessionStorage.getItem('router-initialized')) {
-      const hasVisited = localStorage.getItem('hasVisited');
-      if (!hasVisited) {
-        localStorage.setItem('hasVisited', 'true');
-        navigate('/login', { replace: true });
-      } else {
-        const lastPath = localStorage.getItem('lastPath');
-        if (lastPath && lastPath !== location.pathname) {
-          navigate(lastPath, { replace: true });
-        }
-      }
-      sessionStorage.setItem('router-initialized', 'true');
-    }
-  }, [navigate, location.pathname]);
-
-  // Persist current path (after initialization) on every change
-  React.useEffect(() => {
-    if (sessionStorage.getItem('router-initialized')) {
-      localStorage.setItem('lastPath', location.pathname);
-    }
-  }, [location.pathname]);
-
-  return null; // no UI
-};
-
 function App() {
   return (
     <AuthProvider>
       <NutritionProvider>
         <Router>
-          <RouteInitializer />
           <Routes>
             {/* Public routes */}
-            <Route path="/login" element={<AccessPage />} />
+            <Route path="/access" element={<AccessPage />} />
+            <Route path="/login" element={<UserLoginPageFixed />} />
+            <Route path="/login-user" element={<UserLoginPageFixed />} />
+            <Route path="/login-original" element={<UserLoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/test-login" element={<TestLogin />} />
+            <Route path="/debug-login" element={<DebugLoginPage />} />
 
             {/* Protected routes */}
             <Route path="/" element={
@@ -143,6 +123,21 @@ function App() {
                 <UserProfile />
               </ProtectedRoute>
             } />
+
+            <Route path="/debug-nutrition" element={
+              <ProtectedRoute>
+                <DebugNutritionPage />
+              </ProtectedRoute>
+            } />
+
+            {/* Clear storage utility page */}
+            <Route path="/clear-storage" element={<ClearStoragePage />} />
+            
+            {/* Debug nutrition page */}
+            <Route path="/debug-nutrition" element={<DebugNutritionPage />} />
+            
+            {/* User isolation test page */}
+            <Route path="/user-isolation-test" element={<UserIsolationTest />} />
 
             {/* Redirect any unknown routes to login */}
             <Route path="*" element={<Navigate to="/login" replace />} />

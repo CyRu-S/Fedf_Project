@@ -12,39 +12,17 @@ import { useAuth } from './contexts/AuthContext';
 function AccessPage() {
   const navigate = useNavigate();
 
-  const { login } = useAuth();
-
   // Handle login for different user types
-  const handleLogin = async (type) => {
-    try {
-      console.log(`Login as ${type}`);
-      // Create user data
-      const userData = { 
-        type, 
-        name: type === 'professional' ? 'Professional' : 'User',
-        email: `${type}@example.com`,
-        id: Date.now() // Add a unique ID
-      };
-      
-      console.log('Calling login with:', userData);
-      
-      // Call login and wait for it to complete
-      await login(userData);
-      
-      console.log('Login successful, navigating to /dashboard');
-      
-      // Add a small delay to ensure state updates propagate
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 100);
-    } catch (error) {
-      console.error('Login error:', error);
+  const handleLogin = (type) => {
+    if (type === 'user') {
+      navigate('/login-user');
+    } else if (type === 'professional') {
+      navigate('/login'); // For professional login (you can create a separate route if needed)
     }
   };
 
   // Handle sign up - redirects to SignUpPage
   const handleSignUp = (type) => {
-    console.log(`Sign up as ${type}`);
     navigate('/signup');
   };
 
