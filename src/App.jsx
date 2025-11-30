@@ -1,7 +1,9 @@
 ﻿import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import AccessPage from './AccessPage';
+import LoginPage from './components/LoginPage.jsx';
+import UserLoginPage from './components/UserLoginPage.jsx';
 import SignUpPage from './SignUpPage';
 import DashboardPage from './DashboardPage';
 import DailyProgressLogPage from './DailyProgressLogPage';
@@ -9,6 +11,7 @@ import NotificationSettings from './NotificationSettings';
 import NutritionistCommunication from './NutritionistCommunication';
 import UserDietPlanPage from './UserDietPlan.jsx';
 import UserProfile from './UserProfile.jsx';
+import AdminDashboard from './components/AdminDashboard.jsx';
 import { NutritionProvider } from './contexts/NutritionContext';
 import NotificationContainer from './components/NotificationContainer';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -60,47 +63,19 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// Route initializer to handle first-visit redirect and path persistence
-const RouteInitializer = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  // Run once to decide initial route
-  React.useEffect(() => {
-    if (!sessionStorage.getItem('router-initialized')) {
-      const hasVisited = localStorage.getItem('hasVisited');
-      if (!hasVisited) {
-        localStorage.setItem('hasVisited', 'true');
-        navigate('/login', { replace: true });
-      } else {
-        const lastPath = localStorage.getItem('lastPath');
-        if (lastPath && lastPath !== location.pathname) {
-          navigate(lastPath, { replace: true });
-        }
-      }
-      sessionStorage.setItem('router-initialized', 'true');
-    }
-  }, [navigate, location.pathname]);
-
-  // Persist current path (after initialization) on every change
-  React.useEffect(() => {
-    if (sessionStorage.getItem('router-initialized')) {
-      localStorage.setItem('lastPath', location.pathname);
-    }
-  }, [location.pathname]);
-
-  return null; // no UI
-};
 
 function App() {
   return (
     <AuthProvider>
       <NutritionProvider>
         <Router>
-          <RouteInitializer />
           <Routes>
             {/* Public routes */}
             <Route path="/login" element={<AccessPage />} />
+            <Route path="/login/pro" element={<LoginPage />} />
+            <Route path="/login/user" element={<UserLoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
             {/* Protected routes */}
             <Route path="/" element={
