@@ -52,6 +52,7 @@ The water intake feature has a beautiful visual animation:
 - Smooth 0.5s transition animation
 - Bubbles for visual effect
 
+{% raw %}
 ```javascript
 <Box
   sx={{
@@ -61,6 +62,7 @@ The water intake feature has a beautiful visual animation:
   }}
 />
 ```
+{% endraw %}
 
 ### 2. **Percentage Calculation** (Line 142)
 ```javascript
