@@ -65,9 +65,9 @@
       "homepage": "https://CyRu-S.github.io/Fedf-project",
       "scripts": {
             "start": "react-scripts start",
-            "build": "react-scripts build",
             "predeploy": "npm run build",
             "deploy": "gh-pages -d build",
-            "dev": "vite"
+            "dev": "vite",
+            "build": "vite build"
       }
 }
