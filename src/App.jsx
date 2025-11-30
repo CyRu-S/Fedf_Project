@@ -18,7 +18,6 @@ import AdminDashboard from './components/AdminDashboard.jsx';
 import { NutritionProvider } from './contexts/NutritionContext';
 import NotificationContainer from './components/NotificationContainer';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import UserLoginPage from './components/UserLoginPage.jsx';
 import TestLogin from './components/TestLogin.jsx';
 import DebugLoginPage from './components/DebugLoginPage.jsx';
 import UserLoginPageFixed from './components/UserLoginPageFixed.jsx';
@@ -137,16 +136,22 @@ function App() {
               <ProtectedRoute>
                 <DebugNutritionPage />
               </ProtectedRoute>
-            } />
-
-            {/* Clear storage utility page */}
+            } />            {/* Clear storage utility page */}
             <Route path="/clear-storage" element={<ClearStoragePage />} />
             
             {/* Debug nutrition page */}
-            <Route path="/debug-nutrition" element={<DebugNutritionPage />} />
+            <Route path="/debug-nutrition" element={
+              <ProtectedRoute>
+                <DebugNutritionPage />
+              </ProtectedRoute>
+            } />
             
             {/* User isolation test page */}
-            <Route path="/user-isolation-test" element={<UserIsolationTest />} />
+            <Route path="/user-isolation-test" element={
+              <ProtectedRoute>
+                <UserIsolationTest />
+              </ProtectedRoute>
+            } />
 
             {/* Redirect any unknown routes to login */}
             <Route path="*" element={<Navigate to="/login" replace />} />
