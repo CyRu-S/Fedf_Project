@@ -18,6 +18,12 @@ function AccessPage() {
       navigate('/login-user');
     } else if (type === 'professional') {
       navigate('/login'); // For professional login (you can create a separate route if needed)
+  // Navigate to appropriate login page instead of logging in directly
+  const goToLogin = (type) => {
+    if (type === 'professional') {
+      navigate('/login/pro');
+    } else {
+      navigate('/login/user');
     }
   };
 
@@ -179,7 +185,7 @@ function AccessPage() {
           {/* Button at bottom */}
           <Box>
             <Button
-            onClick={() => handleLogin('professional')}
+            onClick={() => goToLogin('professional')}
             variant="contained"
             sx={{
               backgroundColor: 'white',
@@ -321,7 +327,7 @@ function AccessPage() {
           {/* Button at bottom */}
           <Box>
             <Button
-            onClick={() => handleLogin('user')}
+            onClick={() => goToLogin('user')}
             variant="contained"
             sx={{
               backgroundColor: 'white',

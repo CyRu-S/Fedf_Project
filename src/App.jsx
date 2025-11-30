@@ -1,7 +1,9 @@
 ﻿import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box, CircularProgress, Typography } from '@mui/material';
 import AccessPage from './AccessPage';
+import LoginPage from './components/LoginPage.jsx';
+import UserLoginPage from './components/UserLoginPage.jsx';
 import SignUpPage from './SignUpPage';
 import DashboardPage from './DashboardPage';
 import DailyProgressLogPage from './DailyProgressLogPage';
@@ -12,6 +14,7 @@ import UserProfile from './UserProfile.jsx';
 import ClearStoragePage from './ClearStoragePage.jsx';
 import DebugNutritionPage from './DebugNutritionPage.jsx';
 import UserIsolationTest from './UserIsolationTest.jsx';
+import AdminDashboard from './components/AdminDashboard.jsx';
 import { NutritionProvider } from './contexts/NutritionContext';
 import NotificationContainer from './components/NotificationContainer';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -67,6 +70,7 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+
 function App() {
   return (
     <AuthProvider>
@@ -81,6 +85,11 @@ function App() {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/test-login" element={<TestLogin />} />
             <Route path="/debug-login" element={<DebugLoginPage />} />
+            <Route path="/login" element={<AccessPage />} />
+            <Route path="/login/pro" element={<LoginPage />} />
+            <Route path="/login/user" element={<UserLoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
             {/* Protected routes */}
             <Route path="/" element={
