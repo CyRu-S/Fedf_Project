@@ -15,30 +15,12 @@ function AccessPage() {
   const { login } = useAuth();
 
   // Handle login for different user types
-  const handleLogin = async (type) => {
-    try {
-      console.log(`Login as ${type}`);
-      // Create user data
-      const userData = { 
-        type, 
-        name: type === 'professional' ? 'Professional' : 'User',
-        email: `${type}@example.com`,
-        id: Date.now() // Add a unique ID
-      };
-      
-      console.log('Calling login with:', userData);
-      
-      // Call login and wait for it to complete
-      await login(userData);
-      
-      console.log('Login successful, navigating to /dashboard');
-      
-      // Add a small delay to ensure state updates propagate
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 100);
-    } catch (error) {
-      console.error('Login error:', error);
+  // Navigate to appropriate login page instead of logging in directly
+  const goToLogin = (type) => {
+    if (type === 'professional') {
+      navigate('/login/pro');
+    } else {
+      navigate('/login/user');
     }
   };
 
@@ -201,7 +183,7 @@ function AccessPage() {
           {/* Button at bottom */}
           <Box>
             <Button
-            onClick={() => handleLogin('professional')}
+            onClick={() => goToLogin('professional')}
             variant="contained"
             sx={{
               backgroundColor: 'white',
@@ -343,7 +325,7 @@ function AccessPage() {
           {/* Button at bottom */}
           <Box>
             <Button
-            onClick={() => handleLogin('user')}
+            onClick={() => goToLogin('user')}
             variant="contained"
             sx={{
               backgroundColor: 'white',
